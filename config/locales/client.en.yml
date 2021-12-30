@@ -2,43 +2,43 @@ en:
   js:
     reward:
       image:
-        help: "Upload a reward image."
+        help: "Upload a prize image."
       points:
         validation:
           required: "Please enter points."
           less_than_1: "Please enter points greater than 0."
-          ok: "Reward Points."
-        instructions: "Points needed to redeem this reward."
+          ok: "Prize Points."
+        instructions: "Points needed to redeem this prize."
       title:
         validation:
-          required: "Please enter reward title."
-          ok: "Reward Title."
-        instructions: "title of this reward."
+          required: "Please enter prize title."
+          ok: "Prize Title."
+        instructions: "title of this prize."
       description:
-        instructions: "Description of this reward."
+        instructions: "Description of this prize."
       quantity:
         left: "Left"
         validation:
           required: "Please enter quantity."
           less_than_1: "Please enter quantity greater than 0."
-          ok: "Reward Quantity."
-        instructions: "Quantity of this reward."
+          ok: "Prize Quantity."
+        instructions: "Quantity of this prize."
     admin:
       site_settings:
         categories:
-          discourse_rewards: "Discourse Rewards"
+          discourse_rewards: "Discourse Prizes"
       rewards:
-        image: "Reward image"
-        grant_confirm: "Are you sure you want to grant this reward?"
-        cancel_grant_confirm: "Are you sure you don't want to grant this reward?"
-        delete_confirm: "Are you sure you want to grant this reward?"
-        redeem_confirm: "Are you sure you want to redeem this reward?"
+        image: "Prize image"
+        grant_confirm: "Are you sure you want to grant this prize?"
+        cancel_grant_confirm: "Are you sure you don't want to grant this prize?"
+        delete_confirm: "Are you sure you want to grant this prize?"
+        redeem_confirm: "Are you sure you want to redeem this prize?"
         new: "New"
         rewards:
-          nav: "Rewards"
+          nav: "Prizes"
         user_rewards:
-          nav: "User Rewards"
-        nav_title: "Rewards"
+          nav: "User Prizes"
+        nav_title: "Prizes"
         points: "Points"
         quantity: "Quantity"
         title: "Title"
@@ -47,11 +47,11 @@ en:
         delete: "Delete"
         edit: "Edit"
         redeem: "Redeem"
-        grant_reward: "Grant Reward"
+        grant_reward: "Grant Prize"
         cancel_grant: "Cancel"
-        empty_state_title: "There are no rewards uploaded yet."
+        empty_state_title: "There are no prizes uploaded yet."
         rewards_grant:
-          empty_state_title: "There are no redeemed rewards."
+          empty_state_title: "There are no redeemed prizes."
     user:
       summary:
         total_earned_points:
@@ -59,7 +59,7 @@ en:
           other: "Total Earned Points"
     discourse_rewards:
       category:
-        rewards_points_for_topic_create: "Reward points for creating a topic in this category"
+        rewards_points_for_topic_create: "Prize points for creating a topic in this category"
       my_points_center:
         th:
           time: "Time"
@@ -67,28 +67,28 @@ en:
           points: "Points"
         my_points: "My Points: "
         profile_link_name: "Points Center"
-        nav: "My Points Center"
-        redeemed: "Redeemed a reward: %{title}."
+        nav: "Points Notice"
+        redeemed: "Redeemed a prize: %{title}."
         topic_create: "Created a topic: %{title}."
         post_create: "Created a post on: %{title} topic."
         like_received: "Received a like on post id: %{post_id}."
-        badge: "Earned a reward badge: %{title}."
-        earned_points: "Earned reward points."
+        badge: "Earned a prize badge: %{title}."
+        earned_points: "Earned prize points."
         daily_login: "Visited on %{date}."
       user:
         title: "User: "
       available_rewards:
-        nav: "Available Rewards"
-        empty_state_title: "There are no available rewards."
-        empty_state_body: "All Rewards will be displayed once admin uploads any. Here, you can redeem any reward from the availabe ones using your earned points."
+        nav: "Available Prizes"
+        empty_state_title: "There are no available prizes."
+        empty_state_body: "All Prizes will be displayed once admin uploads any. Here, you can redeem any prize from the availabe ones using your earned points."
       available_quantity: "Available quantity: "
       point:
         one: "point"
         other: "Points"
       leaderboard:
         praise: "Your ranking is %{rank}, %{postfix}"
-        nav: "Leaderboard"
-        title: "Leaderboard"
+        nav: "Ranking"
+        title: "Ranking"
         praise_user:
           top_10:
             praise_1: "it's great."
@@ -101,19 +101,19 @@ en:
           above_100:
             praise_1: "please keep on going."
       edit_reward:
-        modal_title: "Edit Reward"
-      title: "Rewards"
+        modal_title: "Edit Prize"
+      title: "Prizes"
       user_rewards:
-        title: "User Rewards"
+        title: "User Prizes"
         cancel_reward:
-          title: "Cancel Reward"
+          title: "Cancel Prize"
           reason: "Reason"
-          reason_instructions: "Reason you want to cancel the reward"
+          reason_instructions: "Reason you want to cancel the prize"
           reason_validation:
-            required: "You need to enter reason of cancellation to cancel this reward."
+            required: "You need to enter reason of cancellation to cancel this prize."
             ok: "Reason is valid"
       reward:
-        modal_title: "Reward Details"
+        modal_title: "Prize Details"
       transaction:
         empty_state_title: "There are no transactions."
         empty_state_body: "Seems like you dont have any transaction in the selected category."
@@ -122,13 +122,13 @@ en:
           creation: "Topics/Posts created"
           daily_login: "Daily Login"
           like: "Like Received"
-          badge: "Reward Badges earned"
-          redeem: "Rewards Earned"
+          badge: "Prize Badges earned"
+          redeem: "Prizes Earned"
           uncategorized: "Uncategorized Transactions"
     notifications:
       titles:
-        rewards: "new user reward"
+        rewards: "new user prize"
       rewards:
-        redeemed: "has redeemed %{reward_title} reward."
-        new: "New %{reward_title} reward is here!"
+        redeemed: "has redeemed %{reward_title} Prize."
+        new: "New %{reward_title} prize is here!"
         new_user_reward: "<span>%{username}</span> %{description}"
