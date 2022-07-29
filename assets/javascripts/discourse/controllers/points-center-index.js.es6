@@ -46,8 +46,9 @@ export default Controller.extend({
     if (filter === "redeem")
       return this.model.transactions.filter(
         (transaction) =>
-          transaction.user_points_category &&
-          transaction.user_points_category.id === null
+          //transaction.user_points_category &&
+          //transaction.user_points_category.id === null
+          transaction.user_points_category === null
       );
 
     return this.model.transactions;
