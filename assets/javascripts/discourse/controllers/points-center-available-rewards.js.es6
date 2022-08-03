@@ -20,6 +20,9 @@ export default Controller.extend({
   },
 
   replaceReward(data) {
+    if(!this.model) {
+      return;
+    }
     let index = this.model.rewards.indexOf(
       this.model.rewards.find(
         (searchReward) => searchReward.id === data.reward_id

@@ -55,10 +55,10 @@ class DiscourseRewards::Rewards
 
     @reward.update!(quantity: @reward.quantity - 1)
 
-    DiscourseRewards::RewardNotification.new(@reward, @user, DiscourseRewards::RewardNotification.types[:redeemed]).create
-
     publish_reward!(quantity: true)
     publish_points!
+
+    DiscourseRewards::RewardNotification.new(@reward, @user, DiscourseRewards::RewardNotification.types[:redeemed]).create
 
     @reward
   end
