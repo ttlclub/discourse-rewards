@@ -22,6 +22,9 @@ export default Controller.extend({
   },
 
   replaceReward(data) {
+    if(!this.model) {
+      return;
+    }
     if (this.model && (data.create || data.destroy || data.update)) {
       return;
     }
