@@ -9,6 +9,7 @@ DiscourseRewards::Engine.routes.draw do
   get "user-rewards" => "rewards#user_rewards"
   post "user-rewards/:id" => "rewards#grant_user_reward"
   delete "user-rewards/:id" => "rewards#cancel_user_reward"
+  post "user-points/gift/:id" => "rewards#gift"
   resources :rewards
 
   get "points-center" => "rewards#display", constraints: DiscourseRewards::NonAnonymousUserConstraints.new
