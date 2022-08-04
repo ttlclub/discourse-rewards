@@ -75,6 +75,8 @@ en:
         badge: "Earned a prize badge: %{title}."
         earned_points: "Earned prize points."
         daily_login: "Visited on %{date}."
+        gift_received: "gift received from %{username} on: %{title} topic."
+        gift_given: "gift given to %{username} on: %{title} topic."
       user:
         title: "User: "
       available_rewards:
@@ -125,6 +127,20 @@ en:
           badge: "Prize Badges earned"
           redeem: "Prizes Earned"
           uncategorized: "Uncategorized Transactions"
+          gift_received: "Gift Received"
+          gift_given: "Gift Given"
+      gift:
+        title: "give mora"
+        points: "mora number："
+        points_validation: 
+          required: "You need to input number of mora."
+          less_than_1: "Please enter mora greater than 0." 
+          over_balance: "Insufficient balance."
+          ok: "Valid."
+        submit: "submit"
+        result:
+          success: "Success！"
+          error: "Error！"
     notifications:
       titles:
         rewards: "new user prize"
