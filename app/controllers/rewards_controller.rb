@@ -151,5 +151,53 @@ module DiscourseRewards
 
     def display
     end
+
+    def gift
+      params.require(:id)
+      params.require(:points)
+
+      id = params[:id]
+      points = params[:points].to_i
+
+      post = Post.find(id)
+      user_received = post.user
+
+      raise Discourse::InvalidAccess if post.topic.archetype == Archetype.private_message
+
+      description_received = {
+        type: 'gift_received',
+        username: current_user.name,
+        post_id: id,
+        post_number: post.post_number,
+        topic_id: post.topic.id,
+        topic_slug: post.topic.slug,
+        topic_title: post.topic.title
+      }
+      description_given = {
+        type: 'gift_given',
+        username: user_received.name,
+        post_id: id,
+        post_number: post.post_number,
+        topic_id: post.topic.id,
+        topic_slug: post.topic.slug,
+        topic_title: post.topic.title
+      }
+      DiscourseRewards::UserPoint.create(user_id: user_received.id, user_points_category_id: 6, reward_points: points, description: description_received.to_json) if points > 0
+      DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 7, reward_points: -(points), description: description_given.to_json)
+
+      user_message_received = {
+        available_points: user_received.available_points
+      }
+
+      MessageBus.publish("/u/#{user_received.id}/rewards", user_message_received)
+
+      user_message_given = {
+        available_points: current_user.available_points
+      }
+
+      MessageBus.publish("/u/#{current_user.id}/rewards", user_message_given)
+
+      render_json_dump({ post: serialize_data(post,PostSerializer), points: points, user_received: serialize_data(user_received, BasicUserSerializer), user_given: serialize_data(current_user, BasicUserSerializer)})
+    end
   end
 end

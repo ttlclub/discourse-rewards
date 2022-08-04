@@ -1,0 +1,23 @@
+{{#d-modal-body 
+  title="discourse_rewards.gift.title"
+  class="discourse-rewards-modal"}}
+  <div class="field">
+    <label for="points">{{i18n "discourse_rewards.gift.points"}}</label>
+    {{input 
+      type="number" 
+      autofocus="autofocus" 
+      name="points" 
+      value=gift_points 
+      class="points" 
+      id="points" 
+      aria-invalid=pointsValidation.failed}}
+    {{input-tip validation=pointsValidation id="gift-points-validation"}}
+  </div>
+
+  {{d-button
+      class="btn-primary"
+      action=(action "submitGift")
+      type="submit"
+      disabled=saving
+      label="discourse_rewards.gift.submit"}}
+{{/d-modal-body}}

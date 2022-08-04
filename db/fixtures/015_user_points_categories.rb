@@ -34,3 +34,17 @@ DiscourseRewards::UserPointsCategory.seed(:name) do |c|
   c.slug = "Rewards Earned"
   c.description = "Redeemed points for getting reward."
 end
+
+DiscourseRewards::UserPointsCategory.seed(:name) do |c|
+  c.id = 6
+  c.name = "gift_received"
+  c.slug = "Gift Received"
+  c.description = "Points for receiving a gift."
+end
+
+DiscourseRewards::UserPointsCategory.seed(:name) do |c|
+  c.id = 7
+  c.name = "gift_given"
+  c.slug = "Gift Given"
+  c.description = "Points for giving a gift."
+end

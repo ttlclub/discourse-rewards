@@ -75,6 +75,8 @@ zh_CN:
         badge: "获得了徽章: %{title}."
         earned_points: "获得奖励积分."
         daily_login: "访问社区 %{date}."
+        gift_received: "收到 %{username} 的礼物在: %{title} 主题帖."
+        gift_given: "给 %{username} 送出礼物在: %{title} 主题帖."
       user:
         title: "用户: "
       available_rewards:
@@ -125,6 +127,20 @@ zh_CN:
           badge: "获得徽章"
           redeem: "兑换的商品"
           uncategorized: "未分类记录"
+          gift_received: "收到的礼物"
+          gift_given: "送出的礼物"
+      gift:
+        title: "送出摩拉"
+        points: "送出的摩拉数："
+        points_validation: 
+          required: "您需要输入摩拉数才能完成赠送."
+          less_than_1: "请输入大于0的摩拉数." 
+          over_balance: "您的摩拉余额不足."
+          ok: "摩拉数有效."
+        submit: "送出"
+        result:
+          success: "赠送成功！"
+          error: "赠送失败！"
     notifications:
       titles:
         rewards: "新的用户兑换"

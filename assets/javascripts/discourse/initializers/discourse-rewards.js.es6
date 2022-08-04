@@ -3,6 +3,7 @@ import { h } from "virtual-dom";
 import { iconNode } from "discourse-common/lib/icon-library";
 import DiscourseURL from "discourse/lib/url";
 import MessageBus from "message-bus-client";
+import showModal from "discourse/lib/show-modal";
 
 function initializeDiscourseRewards(api) {
   const currentUser = api.getCurrentUser();
@@ -55,6 +56,22 @@ function initializeDiscourseRewards(api) {
         content: I18n.t("discourse_rewards.my_points_center.profile_link_name"),
       });
     }
+
+    api.addPostMenuButton("certificate", () => {
+      return {
+        action: "giveGift",
+        icon: 'certificate',
+        className: 'gift',
+        position: 'first'
+      };
+    });
+
+    api.attachWidgetAction('post-menu', 'giveGift', function() {
+      showModal("give-gift", {
+        model: this.attrs,
+      });
+
+    });
   }
 }
 

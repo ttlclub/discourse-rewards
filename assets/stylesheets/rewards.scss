@@ -13,6 +13,16 @@
     background-color: var(--primary-low);
     resize: none;
   }
+  .points {
+    width: 400px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid var(--primary-med-or-secondary-med);
+    border-radius: 4px;
+    background-color: var(--primary-low);
+    width: 400px;
+
+  }
 }
 
 .discourse-rewards-reward-card {
@@ -365,7 +375,7 @@
       &:not(.header) {
         color: var(--success);
 
-        &.redeemed {
+        &.out {
           color: var(--danger);
         }
       }
