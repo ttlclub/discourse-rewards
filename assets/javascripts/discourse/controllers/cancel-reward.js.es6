@@ -39,7 +39,7 @@ export default Controller.extend({
 
     return EmberObject.create({
       ok: true,
-      reason: I18n.t("reward.points.validation.ok"),
+      reason: I18n.t("discourse_rewards.user_rewards.cancel_reward.reason_validation.ok"),
     });
   },
 });
