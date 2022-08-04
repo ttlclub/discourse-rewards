@@ -43,6 +43,18 @@ export default Controller.extend({
           transaction.user_points_category &&
           transaction.user_points_category.id === 1
       );
+    if (filter === "gift_received")
+    return this.model.transactions.filter(
+      (transaction) =>
+        transaction.user_points_category &&
+        transaction.user_points_category.id === 6
+    );
+    if (filter === "gift_given")
+    return this.model.transactions.filter(
+      (transaction) =>
+        transaction.user_points_category &&
+        transaction.user_points_category.id === 7
+    );
     if (filter === "redeem")
       return this.model.transactions.filter(
         (transaction) =>

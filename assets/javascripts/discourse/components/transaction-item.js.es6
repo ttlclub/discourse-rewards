@@ -1,12 +1,16 @@
 import Component from "@ember/component";
 import { computed } from "@ember/object";
 import { postUrl } from "discourse/lib/utilities";
+import { alias, equal, or } from "@ember/object/computed";
 import getURL from "discourse-common/lib/get-url";
 import I18n from "I18n";
 
 export default Component.extend({
   tagName: "tr",
   classNames: ["transaction-item"],
+  isGiftGiven: equal("transaction.user_points_category.id", 7),
+  isUserReward: alias("transaction.user_reward"),
+  isNegative: or("isUserReward", "isGiftGiven"),
 
   @computed("transaction.reward", "transaction.user_point")
   get details() {
@@ -32,6 +36,17 @@ export default Component.extend({
       } else if (description.type === "daily_login") {
         return I18n.t("discourse_rewards.my_points_center.daily_login", {
           date: description.date,
+        });
+      } else if (description.type === "gift_received"){
+        console.log("gift_received");
+        return I18n.t("discourse_rewards.my_points_center.gift_received", {
+          username: description.username,
+          title: description.topic_title,
+        });
+      } else if (description.type === "gift_given"){
+        return I18n.t("discourse_rewards.my_points_center.gift_given", {
+          username: description.username,
+          title: description.topic_title,
         });
       } else {
         return I18n.t("discourse_rewards.my_points_center.badge", {
