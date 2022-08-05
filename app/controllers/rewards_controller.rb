@@ -199,5 +199,17 @@ module DiscourseRewards
 
       render_json_dump({ post: serialize_data(post,PostSerializer), points: points, user_received: serialize_data(user_received, BasicUserSerializer), user_given: serialize_data(current_user, BasicUserSerializer)})
     end
+
+    def lottery
+
+      hash_value = { :a => 10, :b => 40, :c => 100 }
+      hash_p = { :a => 0.6, :b => 0.35, :c => 0.05 }
+      prizes = []
+
+      hash_p.each do |k, v|
+        (v*100).to_i.times { prizes << hash_value[k] }
+      end
+      render_json_dump({lottery_prize: prizes.sample , user: serialize_data(current_user, BasicUserSerializer)})
+    end
   end
 end
