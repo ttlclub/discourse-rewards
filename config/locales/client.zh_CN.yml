@@ -102,6 +102,14 @@ zh_CN:
             praise_3: "请继续保持哦."
           above_100:
             praise_1: "请继续加油哦."
+      gacha:
+        nav: "岩上茶室"
+        lottery:
+          instructions: "20摩拉一次。抽奖概率：10摩拉60%，40摩拉35%，100摩拉5%。"
+          button: "试试手气"
+          confirm: "客官我看您今天气色不错。来一次试试?"
+          result: "抽奖成功！这是您的%{lottery_prize}摩拉，您拿好!"
+          error: "抽奖失败！"
       edit_reward:
         modal_title: "编辑商品"
       title: "商品列表"
