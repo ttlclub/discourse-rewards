@@ -8,6 +8,7 @@ export default function () {
     function () {
       this.route("available-rewards");
       this.route("leaderboard");
+      this.route("gacha");
     }
   );
 }
