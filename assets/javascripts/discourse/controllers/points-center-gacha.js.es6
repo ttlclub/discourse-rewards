@@ -26,7 +26,8 @@ export default Controller.extend({
                     .then((lottery) => {
                         // console.log(lottery);
                         const lottery_prize = lottery.lottery_prize;
-                        bootbox.alert(I18n.t("discourse_rewards.gacha.lottery.result", {lottery_prize: lottery_prize}));
+                        const remaining = lottery.remaining;
+                        bootbox.alert(I18n.t("discourse_rewards.gacha.lottery.result", {lottery_prize: lottery_prize, remaining:remaining}));
                         //this.send("closeModal");
                     })
                     .catch(() => {

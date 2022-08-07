@@ -209,7 +209,14 @@ module DiscourseRewards
       hash_p.each do |k, v|
         (v*100).to_i.times { prizes << hash_value[k] }
       end
-      render_json_dump({lottery_prize: prizes.sample , user: serialize_data(current_user, BasicUserSerializer)})
+      # RateLimiter.enable
+      limiter = RateLimiter.new(current_user, "lottery_limit_per_day", SiteSetting.discourse_rewards_lottery_limit_per_day.to_i, 1.day)
+      # lmiter.clear!
+      limiter.performed!
+
+      render_json_dump({lottery_prize: prizes.sample, remaining: limiter.remaining, user: serialize_data(current_user, BasicUserSerializer)})
+    rescue RateLimiter::LimitExceeded
+      render_json_error(I18n.t("rate_limiter.slow_down"))
     end
   end
 end
