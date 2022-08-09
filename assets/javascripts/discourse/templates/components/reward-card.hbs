@@ -11,6 +11,16 @@
             {{format-date user_reward.created_at format="tiny"}}
           {{/if}}
         </div>
+        {{#if reward.category}}
+          <p class="category">{{i18n "discourse_rewards.rewards_category"}}
+            <span>
+              {{rewardType}}
+              {{#if (eq reward.category 1)}}
+                {{reward.extra}}
+              {{/if}}
+            </span>
+          </p>
+        {{/if}}
         {{#if username}}
           <p class="username">{{i18n "discourse_rewards.user.title"}} <a class="mention" href={{path}}>@{{username}}</a></p>
         {{/if}}
