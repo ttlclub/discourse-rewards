@@ -5,6 +5,7 @@ import { propertyNotEqual } from "discourse/lib/computed";
 import getURL from "discourse-common/lib/get-url";
 import EmberObject, { action } from "@ember/object";
 import { isEmpty } from "@ember/utils";
+import Group from "discourse/models/group";
 
 const IMAGE = "image";
 
@@ -15,6 +16,10 @@ export default Component.extend({
   forceValidationReason: false,
   userFields: null,
   showDisplayName: propertyNotEqual("name", "displayName"),
+  allGroups: null,
+  allTypes: null,
+  selectedGroups: null,
+
 
   init() {
     this._super(...arguments);
@@ -22,6 +27,25 @@ export default Component.extend({
     if (!this.reward) {
       this.set("reward", EmberObject.create());
     }
+    this.setGroupOptions();
+    this.setTypes();
+  },
+
+  setGroupOptions() {
+    Group.findAll().then((groups) => {
+      this.set("allGroups", groups.filterBy("automatic", false));
+    });
+  },
+
+  setTypes() {
+    const types = this.get("siteSettings.discourse_rewards_rewards_types").split("|")
+    this.set("allTypes", types);
+  },
+
+  @observes("selectedGroups")
+  _updateCategory: function () {
+    let group = this.allGroups.find((group) => group.id === parseInt(this.selectedGroups[0]));
+    this.set("reward.extra", group.name);
   },
 
   // Check the points
@@ -125,6 +149,14 @@ export default Component.extend({
       ok: true,
       reason: I18n.t("reward.title.validation.ok"),
     });
+  },
+
+  @discourseComputed
+  rewardTypes() {
+    const types = this.allTypes.map((x, index) => {
+      return {id: index + 1, name: x}
+    });
+    return types;
   },
 
   @observes("model.id")
