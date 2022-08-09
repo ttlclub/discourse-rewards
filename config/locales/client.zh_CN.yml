@@ -5,10 +5,10 @@ zh_CN:
         help: "添加商品图片."
       points:
         validation:
-          required: "请输入积分数."
-          less_than_1: "请输入大于0的积分数值."
-          ok: "积分数值."
-        instructions: "兑换此奖励所需的积分."
+          required: "请输入摩拉数."
+          less_than_1: "请输入大于0的摩拉数值."
+          ok: "摩拉数值."
+        instructions: "购买此奖励所需的摩拉."
       title:
         validation:
           required: "请输入商品名称."
@@ -23,83 +23,92 @@ zh_CN:
           less_than_1: "请输入大于 0 的数量."
           ok: "商品数量."
         instructions: "商品的库存数量."
+      category:
+        instructions: "商品的类别."
+      extra:
+        instructions: "附加信息."
     admin:
       site_settings:
         categories:
           discourse_rewards: "Discourse 商品"
       rewards:
         image: "商品图片"
-        grant_confirm: "您确定要兑换此商品吗?"
-        cancel_grant_confirm: "您确定拒绝兑换此商品吗?"
-        delete_confirm: "您确定要同意兑换此商品吗?"
-        redeem_confirm: "您确定要兑换此商品吗?"
+        grant_confirm: "您确定要发放此商品吗?"
+        cancel_grant_confirm: "您确定拒绝用户购买此商品吗?"
+        delete_confirm: "您确定要删除此商品吗?"
+        redeem_confirm: "您确定要购买此商品吗?"
         new: "新增商品"
         rewards:
           nav: "商品列表"
         user_rewards:
-          nav: "兑换申请列表"
+          nav: "购买申请列表"
         nav_title: "商品"
-        points: "积分"
+        points: "摩拉"
         quantity: "数量"
         title: "标题"
         description: "描述"
+        category: "类别"
+        extra: "附加信息"
         save: "保存"
         delete: "删除"
         edit: "编辑"
-        redeem: "兑换"
-        grant_reward: "同意兑换"
-        cancel_grant: "拒绝兑换"
+        redeem: "购买"
+        grant_reward: "同意购买"
+        cancel_grant: "拒绝购买"
         empty_state_title: "还没有上传任何商品."
         rewards_grant:
-          empty_state_title: "没有兑换申请记录."
+          empty_state_title: "没有购买申请记录."
     user:
       summary:
         total_earned_points:
-          one: "总积分数"
-          other: "总积分数"
+          one: "总摩拉数"
+          other: "总摩拉数"
     discourse_rewards:
       category:
-        rewards_points_for_topic_create: "在此类别创建主题获取积分数"
+        rewards_points_for_topic_create: "在此类别创建主题可获取摩拉数"
       my_points_center:
         th:
           time: "时间"
           details: "详情"
-          points: "积分数"
-        my_points: "我的积分: "
-        profile_link_name: "积分中心"
-        nav: "积分消息"
-        redeemed: "成功兑换一个商品: %{title}."
+          points: "摩拉数"
+        my_points: "我的摩拉存款: "
+        profile_link_name: "黄金屋"
+        nav: "账单"
+        redeemed: "成功购买一个商品: %{title}."
         topic_create: "创建一个主题: %{title}."
         post_create: "创建一个回复在: %{title} topic."
         like_received: "收到其他人的点赞在: %{post_id}."
         badge: "获得了徽章: %{title}."
-        earned_points: "获得奖励积分."
-        daily_login: "访问社区 %{date}."
-        gift_received: "收到 %{username} 的礼物在: %{title} 主题帖."
-        gift_given: "给 %{username} 送出礼物在: %{title} 主题帖."
+        earned_points: "赚得任务摩拉."
+        daily_login: "每日登录 %{date}."
+        gift_received: "收到 %{username} 赠礼在: %{title} 主题帖."
+        gift_given: "给 %{username} 送出赠礼在: %{title} 主题帖."
+        lottery_out: "%{date}，岩上茶室消费."
+        lottery_in: "%{date}，岩上茶室收入."
       user:
         title: "用户: "
       available_rewards:
-        nav: "商城"
+        nav: "明星斋"
         empty_state_title: "没有可见的商品."
-        empty_state_body: "管理员上传商品，将显示所有商品。 在这里，您可以使用您获得的积分从这里兑换商品."
+        empty_state_body: "您可以使用您获得的摩拉从这里购买商品."
       available_quantity: "库存数量: "
       point:
-        one: "积分"
-        other: "积分"
+        one: "摩拉"
+        other: "摩拉"
+      rewards_category: "类别："
       leaderboard:
         praise: "您的排名是 %{rank}, %{postfix}"
-        nav: "排行榜"
+        nav: "北国银行存款榜"
         title: "排行榜"
         praise_user:
           top_10:
-            praise_1: "非常棒."
-            praise_2: "物联网大神."
-            praise_3: "请接受我的膝盖."
+            praise_1: "您是北国银行头号客户"
+            praise_2: "你是北国银行的VIP客户"
+            praise_3: "叶卡捷琳娜很喜欢你这样的客户"
           top_100:
-            praise_1: "超越了大部分用户."
-            praise_2: "非常棒."
-            praise_3: "请继续保持哦."
+            praise_1: "北国银行表示：很不错，请多存点"
+            praise_2: "叶卡捷琳娜表示，您是北国银行的潜在VIP客户"
+            praise_3: "您的存款虽不少，但还养不起先生，请继续努力"
           above_100:
             praise_1: "请继续加油哦."
       gacha:
@@ -115,29 +124,29 @@ zh_CN:
         modal_title: "编辑商品"
       title: "商品列表"
       user_rewards:
-        title: "兑换申请列表"
+        title: "购买申请列表"
         cancel_reward:
-          title: "拒绝兑换"
+          title: "拒绝购买"
           reason: "原因"
-          reason_instructions: "您拒绝此次兑换的原因"
+          reason_instructions: "您拒绝此次购买的原因"
           reason_validation:
-            required: "您需要输入取消原因才能拒绝此次兑换."
+            required: "您需要输入取消原因才能拒绝此次购买."
             ok: "原因有效"
       reward:
         modal_title: "商品详情"
       transaction:
-        empty_state_title: "没有积分记录."
-        empty_state_body: "您在所选类别中似乎没有任何积分记录."
+        empty_state_title: "账单空白一片."
+        empty_state_body: "您在所选类别中似乎没有任何摩拉获取记录."
         categories:
           all: "所有"
           creation: "主题/回复 创建"
-          daily_login: "日首次登录"
+          daily_login: "每日登录"
           like: "获取到的点赞数"
           badge: "获得徽章"
-          redeem: "兑换的商品"
+          redeem: "购买的商品"
           uncategorized: "未分类记录"
-          gift_received: "收到的礼物"
-          gift_given: "送出的礼物"
+          gift: "赠礼"
+          lottery: "岩上茶室"
       gift:
         title: "送出摩拉"
         points: "送出的摩拉数："
@@ -152,8 +161,8 @@ zh_CN:
           error: "赠送失败！"
     notifications:
       titles:
-        rewards: "新的用户兑换"
+        rewards: "新的用户购买"
       rewards:
-        redeemed: "已经兑换 %{reward_title} 商品."
-        new: "新 %{reward_title} 商品在这里!"
+        redeemed: "已经购买 %{reward_title} 商品."
+        new: "明星斋上新 %{reward_title}!"
         new_user_reward: "<span>%{username}</span> %{description}"

@@ -3,11 +3,5 @@
   <a href={{url}} class="link {{if isNegative "out"}}">{{details}}</a>
 </td>
 <td class="transaction-points {{if isNegative "out"}}">
-  {{#if isUserReward}}
-    -
-  {{else if isGiftGiven}}
-    {{else}}
-      +
-  {{/if}}
-  {{transaction.reward_points}}
+  {{if isNegative "-" "+"}}{{absPoints}}
 </td>

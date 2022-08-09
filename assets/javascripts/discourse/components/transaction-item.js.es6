@@ -9,8 +9,14 @@ export default Component.extend({
   tagName: "tr",
   classNames: ["transaction-item"],
   isGiftGiven: equal("transaction.user_points_category.id", 7),
+  isLotteryOut: equal("transaction.user_points_category.id", 8),
   isUserReward: alias("transaction.user_reward"),
-  isNegative: or("isUserReward", "isGiftGiven"),
+  isNegative: or("isUserReward", "isGiftGiven", "isLotteryOut"),
+
+  @computed("transaction.reward_points")
+  get absPoints() {
+    return Math.abs(this.transaction.reward_points);
+  },
 
   @computed("transaction.reward", "transaction.user_point")
   get details() {
@@ -38,7 +44,6 @@ export default Component.extend({
           date: description.date,
         });
       } else if (description.type === "gift_received"){
-        console.log("gift_received");
         return I18n.t("discourse_rewards.my_points_center.gift_received", {
           username: description.username,
           title: description.topic_title,
@@ -47,6 +52,14 @@ export default Component.extend({
         return I18n.t("discourse_rewards.my_points_center.gift_given", {
           username: description.username,
           title: description.topic_title,
+        });
+      } else if (description.type === "lottery_out"){
+        return I18n.t("discourse_rewards.my_points_center.lottery_out", {
+          date: description.date,
+        });
+      } else if (description.type === "lottery_in"){
+        return I18n.t("discourse_rewards.my_points_center.lottery_in", {
+          date: description.date,
         });
       } else {
         return I18n.t("discourse_rewards.my_points_center.badge", {

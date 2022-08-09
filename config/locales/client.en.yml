@@ -23,6 +23,10 @@ en:
           less_than_1: "Please enter quantity greater than 0."
           ok: "Prize Quantity."
         instructions: "Quantity of this prize."
+      category:
+        instructions: "Type."
+      extra:
+        instructions: "Extra."
     admin:
       site_settings:
         categories:
@@ -43,6 +47,8 @@ en:
         quantity: "Quantity"
         title: "Title"
         description: "Description"
+        category: "类别"
+        extra: "附加信息"
         save: "Save"
         delete: "Delete"
         edit: "Edit"
@@ -77,6 +83,8 @@ en:
         daily_login: "Visited on %{date}."
         gift_received: "gift received from %{username} on: %{title} topic."
         gift_given: "gift given to %{username} on: %{title} topic."
+        lottery_out: "%{date}，spent on gacha."
+        lottery_in: "%{date}，earned on gacha."
       user:
         title: "User: "
       available_rewards:
@@ -87,6 +95,7 @@ en:
       point:
         one: "point"
         other: "Points"
+      rewards_category: "Type："
       leaderboard:
         praise: "Your ranking is %{rank}, %{postfix}"
         nav: "Ranking"
@@ -102,6 +111,15 @@ en:
             praise_3: "please keep it up."
           above_100:
             praise_1: "please keep on going."
+      gacha:
+        nav: "gacha"
+        lottery:
+          title: "Du Shi"
+          instructions: "20mora per time. Probability：10 mora 60%，40 mora35%，100 mora5%。"
+          button: "Just Try It!"
+          confirm: "Try?"
+          result: "Succuss！There are %{lottery_prize} mora.Thank you!<br/>Times Left Today：%{remaining}"
+          error: "Error！"
       edit_reward:
         modal_title: "Edit Prize"
       title: "Prizes"
@@ -127,8 +145,8 @@ en:
           badge: "Prize Badges earned"
           redeem: "Prizes Earned"
           uncategorized: "Uncategorized Transactions"
-          gift_received: "Gift Received"
-          gift_given: "Gift Given"
+          gift: "gift"
+          lottery: "gacha"
       gift:
         title: "give mora"
         points: "mora number："

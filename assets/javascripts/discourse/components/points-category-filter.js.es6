@@ -33,12 +33,12 @@ export default DropdownSelectBoxComponent.extend({
         label: I18n.t("discourse_rewards.transaction.categories.like"),
       },
       {
-        id: "gift_received",
-        label: I18n.t("discourse_rewards.transaction.categories.gift_received"),
+        id: "gift",
+        label: I18n.t("discourse_rewards.transaction.categories.gift"),
       },
       {
-        id: "gift_given",
-        label: I18n.t("discourse_rewards.transaction.categories.gift_given"),
+        id: "lottery",
+        label: I18n.t("discourse_rewards.transaction.categories.lottery"),
       },
       {
         id: "redeem",

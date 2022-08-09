@@ -71,6 +71,45 @@
       </div>
     </div>
 
+    <div class="input-group">
+      <label for="category">{{i18n "admin.rewards.category"}}</label>
+      {{combo-box
+        name="category"
+        value=reward.category
+        content=rewardTypes
+        class="category"
+        onChange=(action (mut reward.category))
+        id="reward-category"
+      }}
+      {{!-- {{input-tip validation=titleValidation id="reward-category-validation"}} --}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "reward.category.instructions"}}</p>
+      </div>
+    </div>
+    
+    {{#if (eq reward.category 1)}}
+    <div class="input-group">
+       <label for="extra">{{i18n "admin.rewards.extra"}}</label>
+      {{!-- {{input type="text"
+        name="extra"
+        value=reward.extra
+        class="extra"
+        id="reward-extra"
+      }} --}}
+      {{group-chooser
+        content=allGroups
+        value=selectedGroups
+        labelProperty="name"
+        onChange=(action (mut selectedGroups))
+      }}
+      {{!-- {{input-tip validation=titleValidation id="reward-extra-validation"}} --}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "reward.extra.instructions"}}</p>
+      </div>
+    </div>
+    {{/if}}
+
+
     <div class="buttons">
       {{d-button
         class="btn-primary"

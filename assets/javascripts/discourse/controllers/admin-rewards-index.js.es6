@@ -106,6 +106,8 @@ export default Controller.extend({
         "description",
         "upload_id",
         "upload_url",
+        "category",
+        "extra"
       ];
 
       this.set("saving", true);
