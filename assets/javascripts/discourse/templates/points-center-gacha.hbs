@@ -1,16 +1,19 @@
 <div class="gacha">
     <div class="lottery">
-        {{!-- 记得改 这里先用id把图片弄上去看看效果 --}}
-        <div id="lottery-description-img"></div>
-        <div class="lottery-instructions">
-         <p class="title">{{i18n "discourse_rewards.gacha.lottery.title"}}</p>
-         <p class="help">{{i18n "discourse_rewards.gacha.lottery.instructions"}}</p>
-        {{d-button
-        action=(action "lottery")
-        class="btn-primary button lottery-button"
-        icon=""
-        label="discourse_rewards.gacha.lottery.button"
-        }}
+        <div class="lottery-img">
+            <img src="/assets/images/lottery.png">
+        </div>
+        <div class="lottery-details">
+            <h3>赌石</h3>
+            <div class="lottery-instructions">
+                <p class="help">{{i18n "discourse_rewards.gacha.lottery.instructions"}}</p>
+            </div>
+            {{d-button
+            action=(action "lottery")
+            class="btn-primary button"
+            icon=""
+            label="discourse_rewards.gacha.lottery.button"
+            }}
         </div>
     </div>
 </div>

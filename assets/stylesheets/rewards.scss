@@ -4,11 +4,11 @@
     display: grid;
   }
   .reason {
-    width: 400px !important;
+    width: auto !important;
     height: 250px !important;
     padding: 12px 20px;
     box-sizing: border-box;
-    border: 2px solid var(--primary-med-or-secondary-med);
+    border: 1px solid var(--primary-med-or-secondary-med);
     border-radius: 4px;
     background-color: var(--primary-low);
     resize: none;
@@ -17,10 +17,10 @@
     width: 400px;
     padding: 12px 20px;
     box-sizing: border-box;
-    border: 2px solid var(--primary-med-or-secondary-med);
+    border: 1px solid var(--primary-med-or-secondary-med);
     border-radius: 4px;
     background-color: var(--primary-low);
-    width: 400px;
+    width: auto;
 
   }
 }
@@ -379,6 +379,69 @@
           color: var(--danger);
         }
       }
+    }
+  }
+}
+
+.lottery{
+  display: flex;
+  .lottery-img{
+    max-height: 200px;
+    max-width: 160px;
+    margin: 1em 0.5em;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .lottery-details {
+    max-width: 300px;
+    margin:1em 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .btn{
+      border-radius: 1.5em;
+    }
+    .lottery-instructions {
+      color: var(--primary-medium);
+      p {
+        margin-block-start: 0;
+      }
+    }
+  }
+}
+.bootbox.modal {
+  --width:500px;
+  top: 50%;
+  // transform: translate(-50%, 0);
+  left: 50%;
+  border-radius: 1em;
+  max-width: 500px;
+  width: var(--width);
+  // left: calc(50vw - var(width)/2 - 15px);
+  padding: 15px;
+
+  .modal-body {
+    margin: 1em 0;
+  }
+  .modal-footer {
+    // justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    .btn {
+      flex:1;
+      border-radius: 1.5em;
+      margin-left: 1em;
+      margin-right: 1em;
+      max-width: 150px;
+    }
+    .btn-default {
+      background: unset;
+      border: 1px solid var(--primary-low-mid);
+    }
+    .btn:hover {
+      color: unset;
     }
   }
 }
