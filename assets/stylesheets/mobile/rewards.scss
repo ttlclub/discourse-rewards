@@ -26,3 +26,10 @@
     }
   }
 }
+.bootbox.modal{
+  --width:300px;
+  top: 30%;
+}
+.bootbox.modal {
+  transform: translate(-50%, 0);
+}
