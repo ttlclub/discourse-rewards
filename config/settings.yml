@@ -23,6 +23,9 @@ discourse_rewards:
   discourse_rewards_points_for_like_received:
     client: true
     default: 0
+  discourse_rewards_points_for_like_given:
+    client: true
+    default: 0
   discourse_rewards_points_for_daily_login:
     client: true
     default: 0
@@ -40,4 +43,19 @@ discourse_rewards:
     default: 0
   discourse_rewards_lottery_limit_per_day:
     client: true
-    default: 10
+    default: 5
+  discourse_rewards_lottery_points_spent_per_time:
+    client: true
+    default: 20
+  discourse_rewards_lottery_probability:
+    type: list
+    client: true
+    default: "0.6|0.35|0.05"
+  discourse_rewards_lottery_prizes:
+    type: list
+    client: true
+    default: "10|40|100"
+  discourse_rewards_rewards_types:
+    type: list
+    client: true
+    default: "头像框|实物周边|其他"
