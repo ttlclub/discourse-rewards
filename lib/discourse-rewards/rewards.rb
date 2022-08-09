@@ -15,7 +15,9 @@ class DiscourseRewards::Rewards
       title: opts[:title],
       description: opts[:description],
       upload_id: opts[:upload_id],
-      upload_url: opts[:upload_url]
+      upload_url: opts[:upload_url],
+      category: opts[:category],
+      extra: opts[:extra]
     )
 
     DiscourseRewards::RewardNotification.new(@reward, @user, DiscourseRewards::RewardNotification.types[:new]).create
@@ -68,8 +70,8 @@ class DiscourseRewards::Rewards
 
     PostCreator.new(
       @user,
-      title: 'Reward Grant',
-      raw: "We are glad to announce that @#{@user_reward.user.username} has won #{@reward.title} Award",
+      title: '商品发放',
+      raw: "经「明星斋」审议决定，将 #{@reward.title} 售予 @#{@user_reward.user.username}。感谢惠顾。",
       category: SiteSetting.discourse_rewards_grant_topic_category,
       skip_validations: true
     ).create!
@@ -90,8 +92,8 @@ class DiscourseRewards::Rewards
 
     PostCreator.new(
       @user,
-      title: 'Unable to grant the reward',
-      raw: "We are sorry to announce that #{@user_reward.reward.title} Award has not been granted to you because #{@user_reward.cancel_reason}. Please try to redeem another award @#{@user_reward.user.username}",
+      title: '无法发放商品',
+      raw: " @#{@user_reward.user.username}，非常抱歉。经「明星斋」审议决定，因为 #{@user_reward.cancel_reason}，无法将 #{@user_reward.reward.title} 售予您。 其他还有一些货品在售，欢迎惠顾。 ",
       category: SiteSetting.discourse_rewards_grant_topic_category,
       skip_validations: true
     ).create!

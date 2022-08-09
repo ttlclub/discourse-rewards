@@ -48,3 +48,17 @@ DiscourseRewards::UserPointsCategory.seed(:name) do |c|
   c.slug = "Gift Given"
   c.description = "Points for giving a gift."
 end
+
+DiscourseRewards::UserPointsCategory.seed(:name) do |c|
+  c.id = 8
+  c.name = "lottery_out"
+  c.slug = "Lottery Out"
+  c.description = "Points spent on lottery."
+end
+
+DiscourseRewards::UserPointsCategory.seed(:name) do |c|
+  c.id = 9
+  c.name = "lottery_in"
+  c.slug = "Lottery In"
+  c.description = "Points earned on lottery."
+end

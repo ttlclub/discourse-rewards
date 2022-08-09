@@ -8,6 +8,8 @@ class RewardSerializer < ApplicationSerializer
              :description,
              :upload_id,
              :upload_url,
+             :category,
+             :extra,
              :is_active,
              :deleted_at,
              :created_at,
