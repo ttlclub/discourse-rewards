@@ -26,13 +26,13 @@ export default Controller.extend({
 
     @action
     lottery() {
-        this.set("loading", true);
         return bootbox.confirm(
             I18n.t("discourse_rewards.gacha.lottery.confirm"),
             I18n.t("no_value"),
             I18n.t("yes_value"),
             (result) => {
                 if (result) {
+                this.set("loading", true);
                 return this.lotteryOne()
                     .then((lottery) => {
                         // console.log(lottery);
