@@ -7,7 +7,12 @@ import { alias } from "@ember/object/computed";
 
 export default Controller.extend({
     loading: false,
-    isButtonDisabled: alias("loading"),
+    isButtonDisabled: computed("loading", "currentUser.available_points", function(){
+        return (
+            this.currentUser.available_points < parseInt(this.get("siteSettings.discourse_rewards_lottery_points_spent_per_time")) ||
+            this.loading
+        );
+    }),
 
     lotteryOne() {
         if (!this.currentUser) {
