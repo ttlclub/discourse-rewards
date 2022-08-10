@@ -249,9 +249,11 @@
 
     .available-points-count {
       padding-left: 0.25em;
-      font-size: $font-up-2;
+      // font-size: $font-up-2;
       font-weight: bold;
-      color: var(--header_primary-low-mid);
+      //color: var(--header_primary-low-mid);
+      color:#cd9559;
+      font-size: var(--font-up-1);
     }
   }
 
@@ -443,5 +445,16 @@
     .btn:hover {
       color: unset;
     }
+  }
+}
+
+svg.d-icon-icon-mora {
+  color: #e8af4b !important;
+}
+.user-summary-stat-outlet{
+  svg.d-icon-icon-mora {
+    vertical-align: -0.3em;
+    height: 1.3em;
+    width: 1.3em;
   }
 }
