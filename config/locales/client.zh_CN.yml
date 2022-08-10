@@ -37,6 +37,7 @@ zh_CN:
         cancel_grant_confirm: "您确定拒绝用户购买此商品吗?"
         delete_confirm: "您确定要删除此商品吗?"
         redeem_confirm: "您确定要购买此商品吗?"
+        redeem_success: "购买成功！明星斋正在备货~"
         new: "新增商品"
         rewards:
           nav: "商品列表"
@@ -64,6 +65,7 @@ zh_CN:
           one: "总摩拉数"
           other: "总摩拉数"
     discourse_rewards:
+      generic_error: "抱歉，出错了。请与管理员联系。"
       category:
         rewards_points_for_topic_create: "在此类别创建主题可获取摩拉数"
       my_points_center:

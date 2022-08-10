@@ -177,7 +177,7 @@ export default Controller.extend({
               this.send("closeModal");
             })
             .catch(() => {
-              bootbox.alert(I18n.t("generic_error"));
+              bootbox.alert(I18n.t("discourse_rewards.generic_error"));
             });
         }
       }
