@@ -201,7 +201,7 @@ module DiscourseRewards
     end
 
     def lottery
-      
+
       points_spent = SiteSetting.discourse_rewards_lottery_points_spent_per_time.to_i
       array_key = SiteSetting.discourse_rewards_lottery_prizes.split("|").map(&:to_i)
       array_value = SiteSetting.discourse_rewards_lottery_probability.split("|").map(&:to_f)
@@ -211,31 +211,37 @@ module DiscourseRewards
       hash.each do |k, v|
         (v*100).to_i.times { prizes << k }
       end
-
-      description_out = {
-        type: 'lottery_out',
-        date: Date.today
-      }
-      description_in = {
-        type: 'lottery_in',
-        date: Date.today
-      }
-
-      points_earned = prizes.sample.to_i
-
-      DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 8, reward_points: -(points_spent), description: description_out.to_json)
-      DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 9, reward_points: points_earned, description: description_in.to_json)
-
-      user_message = {
-        available_points: current_user.available_points
-      }
-
-      MessageBus.publish("/u/#{current_user.id}/rewards", user_message)
-
+      
       limiter = RateLimiter.new(current_user, "lottery_limit_per_day", SiteSetting.discourse_rewards_lottery_limit_per_day.to_i, 1.day)
-      limiter.performed!
 
-      render_json_dump({lottery_prize: points_earned, remaining: limiter.remaining, user: serialize_data(current_user, BasicUserSerializer)})
+      if limiter.remaining > 0
+        description_out = {
+          type: 'lottery_out',
+          date: Date.today
+        }
+        description_in = {
+          type: 'lottery_in',
+          date: Date.today
+        }
+
+        points_earned = prizes.sample.to_i
+
+        DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 8, reward_points: -(points_spent), description: description_out.to_json) if limiter.remaining > 0
+        DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 9, reward_points: points_earned, description: description_in.to_json) if limiter.remaining > 0
+
+        user_message = {
+          available_points: current_user.available_points
+        }
+
+        MessageBus.publish("/u/#{current_user.id}/rewards", user_message)
+
+        
+        limiter.performed!
+
+        render_json_dump({lottery_prize: points_earned, remaining: limiter.remaining, user: serialize_data(current_user, BasicUserSerializer)})
+      else
+        render_json_error(I18n.t("rate_limiter.slow_down"))
+      end
     rescue RateLimiter::LimitExceeded
       render_json_error(I18n.t("rate_limiter.slow_down"))
     end
