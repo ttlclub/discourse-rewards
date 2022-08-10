@@ -3,8 +3,12 @@ import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { ajax } from "discourse/lib/ajax";
 import I18n from "I18n";
+import { alias } from "@ember/object/computed";
 
 export default Controller.extend({
+    loading: false,
+    isButtonDisabled: alias("loading"),
+
     lotteryOne() {
         if (!this.currentUser) {
             return Promise.resolve();
@@ -14,8 +18,10 @@ export default Controller.extend({
             type: "post",
         });
     },
+
     @action
     lottery() {
+        this.set("loading", true);
         return bootbox.confirm(
             I18n.t("discourse_rewards.gacha.lottery.confirm"),
             I18n.t("no_value"),
@@ -32,7 +38,8 @@ export default Controller.extend({
                     })
                     .catch(() => {
                         bootbox.alert(I18n.t("discourse_rewards.gacha.lottery.error"));
-                    });
+                    })
+                    .finally(() => this.set("loading", false));
                 }
             }
         );

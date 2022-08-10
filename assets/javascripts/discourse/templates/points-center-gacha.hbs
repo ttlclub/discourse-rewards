@@ -9,6 +9,7 @@
                 <p class="help">{{i18n "discourse_rewards.gacha.lottery.instructions"}}</p>
             </div>
             {{d-button
+            disabled=isButtonDisabled
             action=(action "lottery")
             class="btn-primary button"
             icon=""
