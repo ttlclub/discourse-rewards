@@ -93,10 +93,12 @@ export default Controller.extend({
           return Reward.grant(reward)
             .then(() => {
               // this.model.removeObject(reward);
+              this.send("closeModal");
+              bootbox.alert(I18n.t("admin.rewards.redeem_success"));
               // this.send("closeModal");
             })
             .catch(() => {
-              bootbox.alert(I18n.t("generic_error"));
+              bootbox.alert(I18n.t("discourse_rewards.generic_error"));
             });
         }
       }

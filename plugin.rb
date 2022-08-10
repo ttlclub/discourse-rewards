@@ -14,6 +14,7 @@ register_asset 'stylesheets/mobile/rewards.scss', :mobile
 if respond_to?(:register_svg_icon)
   register_svg_icon "fas fa-trophy"
   register_svg_icon "fas fa-gift"
+  register_svg_icon "icon-mora" if respond_to?(:register_svg_icon)
 end
 
 after_initialize do

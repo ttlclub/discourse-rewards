@@ -34,7 +34,7 @@ function initializeDiscourseRewards(api) {
         html() {
           let result = [
             h("div.available-points-container", {}, [
-              iconNode("trophy"),
+              iconNode("icon-mora"),
               h(
                 "p.available-points-count",
                 { title: currentUser.available_points },

@@ -37,6 +37,7 @@ en:
         cancel_grant_confirm: "Are you sure you don't want to grant this prize?"
         delete_confirm: "Are you sure you want to grant this prize?"
         redeem_confirm: "Are you sure you want to redeem this prize?"
+        redeem_success: "Success!"
         new: "New"
         rewards:
           nav: "Prizes"
@@ -64,6 +65,7 @@ en:
           one: "Total Earned Point"
           other: "Total Earned Points"
     discourse_rewards:
+      generic_error: "Sorry. Please contact our administrators."
       category:
         rewards_points_for_topic_create: "Prize points for creating a topic in this category"
       my_points_center:
