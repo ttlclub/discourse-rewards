@@ -209,7 +209,7 @@ module DiscourseRewards
       prizes = []
 
       hash.each do |k, v|
-        (v*100).to_i.times { prizes << k }
+        (v*1000).to_i.times { prizes << k }
       end
       
       limiter = RateLimiter.new(current_user, "lottery_limit_per_day", SiteSetting.discourse_rewards_lottery_limit_per_day.to_i, 1.day)
