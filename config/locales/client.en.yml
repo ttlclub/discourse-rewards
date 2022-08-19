@@ -93,6 +93,9 @@ en:
         nav: "Available Prizes"
         empty_state_title: "There are no available prizes."
         empty_state_body: "All Prizes will be displayed once admin uploads any. Here, you can redeem any prize from the availabe ones using your earned points."
+        redeem:
+          error_balance: "余额不足，多赚些钱再来吧"
+          error_quantity: "商品已经被抢光"
       available_quantity: "Available quantity: "
       point:
         one: "point"
@@ -122,6 +125,7 @@ en:
           confirm: "Try?"
           result: "Succuss！There are %{lottery_prize} mora.Thank you!<br/>Times Left Today：%{remaining}"
           error: "Error！"
+          error_balane: "over balance"
       edit_reward:
         modal_title: "Edit Prize"
       title: "Prizes"
@@ -161,6 +165,8 @@ en:
         result:
           success: "Success！"
           error: "Error！"
+          error_private: "不支持私信赠礼"
+          error_balane: "赠礼不支持赊账"
     notifications:
       titles:
         rewards: "new user prize"

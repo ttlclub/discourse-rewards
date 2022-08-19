@@ -37,7 +37,8 @@ export default Component.extend({
   get disableRedeemButton() {
     return (
       this.reward.points > this.currentUser.available_points ||
-      this.reward.quantity < 1
+      this.reward.quantity < 1 ||
+      this.loading
     );
   },
 

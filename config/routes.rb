@@ -11,6 +11,7 @@ DiscourseRewards::Engine.routes.draw do
   delete "user-rewards/:id" => "rewards#cancel_user_reward"
   post "user-points/gift/:id" => "rewards#gift"
   post "user-points/gacha/lottery" => "rewards#lottery"
+  get "user-points/update" => "rewards#points_update"
   resources :rewards
 
   get "points-center" => "rewards#display", constraints: DiscourseRewards::NonAnonymousUserConstraints.new

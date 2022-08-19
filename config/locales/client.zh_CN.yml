@@ -93,6 +93,9 @@ zh_CN:
         nav: "明星斋"
         empty_state_title: "没有可见的商品."
         empty_state_body: "您可以使用您获得的摩拉从这里购买商品."
+        redeem:
+          error_balance: "余额不足，多赚些钱再来吧"
+          error_quantity: "商品已经被抢光"
       available_quantity: "库存数量: "
       point:
         one: "摩拉"
@@ -121,7 +124,8 @@ zh_CN:
           button: "试试手气"
           confirm: "客官我看您今天气色不错。来一次试试?"
           result: "抽奖成功！这是您的%{lottery_prize}摩拉，您拿好!<br/>今日剩余抽奖次数：%{remaining}次"
-          error: "抽奖失败！"
+          error: "小赌怡情，大赌伤身，请过段时间再来"
+          error_balane: "岩上茶室不支持赊账"
       edit_reward:
         modal_title: "编辑商品"
       title: "商品列表"
@@ -161,6 +165,8 @@ zh_CN:
         result:
           success: "赠送成功！"
           error: "赠送失败！"
+          error_private: "不支持私信赠礼"
+          error_balane: "赠礼不支持赊账"
     notifications:
       titles:
         rewards: "新的用户购买"

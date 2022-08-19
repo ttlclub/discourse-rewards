@@ -5,11 +5,13 @@ import Reward from "../models/reward";
 import I18n from "I18n";
 import bootbox from "bootbox";
 import { ajax } from "discourse/lib/ajax";
+import UserPoint from "../models/user-point";
 
 export default Controller.extend({
   routing: service("-routing"),
   page: 0,
   loading: false,
+  buttonLoading: false,
 
   init() {
     this._super(...arguments);
@@ -73,6 +75,17 @@ export default Controller.extend({
       .finally(() => this.set("loading", false));
   },
 
+  pointsUpdate() {
+    UserPoint.update()
+      .then((result) => {
+        if (result.available_points) {
+          this.currentUser.set("available_points", result.available_points);
+          // this.scheduleRerender();
+        }
+        //console.log(result);
+    });
+  },
+
   @action
   loadMore() {
     this.findRewards();
@@ -90,16 +103,28 @@ export default Controller.extend({
       I18n.t("yes_value"),
       (result) => {
         if (result) {
+          this.set("buttonLoading", true);
           return Reward.grant(reward)
             .then(() => {
-              // this.model.removeObject(reward);
+              this.pointsUpdate();
               this.send("closeModal");
               bootbox.alert(I18n.t("admin.rewards.redeem_success"));
-              // this.send("closeModal");
             })
             .catch(() => {
-              bootbox.alert(I18n.t("discourse_rewards.generic_error"));
-            });
+              const xhr = e.jqXHR;
+              let errorType = xhr.responseJSON["error_type"]
+              let errorText = "";
+              if (errorType === "quantity_limit") {
+                  errorText = I18n.t("discourse_rewards.available_rewards.redeem.error_balance")
+              } else if (errorType === "insufficient_balance") {
+                  errorText = I18n.t("discourse_rewards.available_rewards.redeem.error_quantity")
+              } else {
+                  errorText = I18n.t("discourse_rewards.gacha.lottery.error")
+              }
+              bootbox.alert(errorText);
+              //bootbox.alert(I18n.t("discourse_rewards.generic_error"));
+            })
+            .finally(() => this.set("buttonLoading", false));
         }
       }
     );
