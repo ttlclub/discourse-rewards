@@ -3,7 +3,7 @@
     {{#if model.rewards.length}}
       <div class="discourse-rewards-rewards-list">
         {{#each model.rewards as |reward|}}
-          {{reward-card reward=reward grant=grant redeem=true}}
+          {{reward-card reward=reward grant=grant redeem=true loading=buttonLoading}}
         {{/each}}
       </div>
       {{conditional-loading-spinner condition=loading}}
