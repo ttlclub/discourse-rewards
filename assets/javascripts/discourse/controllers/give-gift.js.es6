@@ -3,11 +3,12 @@ import EmberObject, { action } from "@ember/object";
 import discourseComputed from "discourse-common/utils/decorators";
 import { isEmpty } from "@ember/utils";
 import { ajax } from "discourse/lib/ajax";
+import UserPoint from "../models/user-point";
 
 export default Controller.extend({
   gift_points: "",
   forceValidationReason: false,
-
+  loading: false,
 
   giveGift(points) {
     if (!points) {
@@ -17,6 +18,17 @@ export default Controller.extend({
     return ajax(`/user-points/gift/${this.model.id}`, {
       type: "post",
       data: { points: points },
+    });
+  },
+
+  pointsUpdate() {
+    UserPoint.update()
+      .then((result) => {
+        if (result.available_points) {
+          this.currentUser.set("available_points", result.available_points);
+          // this.scheduleRerender();
+        }
+        //console.log(result);
     });
   },
 
@@ -40,18 +52,31 @@ export default Controller.extend({
       return;
     }
 
+    this.set("loading", true);
     if (this.gift_points) {
       // debugger
       this.giveGift(this.gift_points).then((result) => {
+        this.pointsUpdate();
         this.send("closeModal");
         bootbox.alert(I18n.t("discourse_rewards.gift.result.success"));
       })
       .catch((error) => {
         this.send("closeModal");
-        bootbox.alert(I18n.t("discourse_rewards.gift.result.error"));
+        const xhr = e.jqXHR;
+        let errorType = xhr.responseJSON["error_type"]
+        let errorText = "";
+        if (errorType === "private_message") {
+          errorText = I18n.t("discourse_rewards.gift.result.error_private")
+        } else if (errorType === "insufficient_balance") {
+          errorText = I18n.t("discourse_rewards.gift.result.error_balance")
+        } else {
+          errorText = I18n.t("discourse_rewards.gift.result.error")
+        }
+        bootbox.alert(errorText);
+        //bootbox.alert(I18n.t("discourse_rewards.gift.result.error"));
         throw new Error(error);
-      });
-      
+      })
+      .finally(() => this.set("loading", false));
     }
   },
 
