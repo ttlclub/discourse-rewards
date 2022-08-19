@@ -81,6 +81,8 @@ after_initialize do
   module UserClassMethods
     def create_visit_record!(date, opts = {})
       super
+      limiter = RateLimiter.new(self, "lottery_limit_per_day", SiteSetting.discourse_rewards_lottery_limit_per_day.to_i, 1.day)
+      limiter.clear!
       points = SiteSetting.discourse_rewards_points_for_daily_login.to_i
       description = {
         type: 'daily_login',
@@ -161,11 +163,11 @@ after_initialize do
       }
       DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_points_category_id: 1, user_badge_id: user_badge.id, reward_points: points, description: description.to_json) if points > 0
 
-      user_message = {
-        available_points: user_badge.user.available_points
-      }
+      # user_message = {
+      #   available_points: user_badge.user.available_points
+      # }
 
-      MessageBus.publish("/u/#{user_badge.user.id}/rewards", user_message)
+      # MessageBus.publish("/u/#{user_badge.user.id}/rewards", user_message)
     end
   end
 
@@ -194,12 +196,12 @@ after_initialize do
 
         DiscourseRewards::UserPoint.create(user_id: post.user_id, user_points_category_id: 2, reward_points: points, description: description.to_json) if points > 0
 
-        user_message = {
-          available_points: post.user.available_points,
-          points: post.user.total_earned_points
-        }
+        # user_message = {
+        #   available_points: post.user.available_points,
+        #   points: post.user.total_earned_points
+        # }
 
-        MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
+        # MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
       end
     end
   end
@@ -229,11 +231,11 @@ after_initialize do
 
         DiscourseRewards::UserPoint.create(user_id: topic.user_id, user_points_category_id: 2, reward_points: points, description: description.to_json) if points > 0
 
-        user_message = {
-          available_points: topic.user.available_points
-        }
+        # user_message = {
+        #   available_points: topic.user.available_points
+        # }
 
-        MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
+        # MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
       end
     end
   end
@@ -262,11 +264,11 @@ after_initialize do
 
         DiscourseRewards::UserPoint.create(user_id: user.id, user_points_category_id: 4, reward_points: points, description: description.to_json) if points > 0
 
-        user_message = {
-          available_points: user.available_points
-        }
+        # user_message = {
+        #   available_points: user.available_points
+        # }
 
-        MessageBus.publish("/u/#{user.id}/rewards", user_message)
+        # MessageBus.publish("/u/#{user.id}/rewards", user_message)
       end
     end
   end
