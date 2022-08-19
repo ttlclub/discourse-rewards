@@ -1,4 +1,12 @@
 en:
+  discourse_rewards:
+    gacha:
+      lottery:
+        error: "lottery error"
+    gift:
+      error: "gift error"
+    redeem:
+      error: "redeem error"
   site_settings:
     discourse_rewards_enabled: "Enable Discourse Rewards"
     discourse_rewards_points_for_bronze_badges: "Reward points for earning bronze badges"

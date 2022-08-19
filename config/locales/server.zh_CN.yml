@@ -1,0 +1,10 @@
+zh_CN:
+    discourse_rewards:
+        gacha:
+            lottery:
+                error: "lottery error"
+        gift:
+            error: "gift error"
+        redeem:
+            error: "redeem error"
+        
