@@ -4,6 +4,7 @@ import { iconNode } from "discourse-common/lib/icon-library";
 import DiscourseURL from "discourse/lib/url";
 import MessageBus from "message-bus-client";
 import showModal from "discourse/lib/show-modal";
+import UserPoint from "../models/user-point";
 
 function initializeDiscourseRewards(api) {
   const currentUser = api.getCurrentUser();
@@ -19,6 +20,14 @@ function initializeDiscourseRewards(api) {
         buildId: () => `discourse-rewards-total-points`,
 
         click() {
+          UserPoint.update()
+          .then((result) => {
+            if (result.available_points) {
+              currentUser.set("available_points", result.available_points);
+              this.scheduleRerender();
+            }
+            //console.log(result);
+          });
           return DiscourseURL.routeTo("/points-center");
         },
 
