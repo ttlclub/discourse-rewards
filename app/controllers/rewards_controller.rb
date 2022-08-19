@@ -239,11 +239,11 @@ module DiscourseRewards
       points_spent = SiteSetting.discourse_rewards_lottery_points_spent_per_time.to_i
       opts = {}
       error_message = I18n.t("discourse_rewards.gacha.lottery.error")
-
      
       if current_user.available_points < points_spent
         opts[:type] = "insufficient_balance"
         return render_json_error(error_message, opts)
+
       end
       if limiter.remaining <= 0
         opts[:type] = "rate_limit"
