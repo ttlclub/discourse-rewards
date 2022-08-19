@@ -4,7 +4,7 @@ import discourseComputed from "discourse-common/utils/decorators";
 
 export default Controller.extend({
   queryParams: ["filter"],
-  filter: "redeem",
+  filter: "all",
 
   init() {
     this._super(...arguments);
@@ -12,7 +12,7 @@ export default Controller.extend({
     MessageBus.subscribe(`/u/${this.currentUser.id}/rewards`, (data) => {
       if (data.available_points) {
         this.currentUser.set("available_points", data.available_points);
-        this.send("refreshModel");
+        //this.send("refreshModel");
       }
     });
   },
