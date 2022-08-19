@@ -6,6 +6,7 @@ module DiscourseRewards
     before_action :ensure_admin, only: [:create, :update, :destroy, :grant_user_reward]
 
     PAGE_SIZE = 30
+    TRANSACTION_PAGE_SIZE = 100
 
     def create
       params.require([:quantity, :title])
@@ -61,8 +62,17 @@ module DiscourseRewards
 
       reward = DiscourseRewards::Reward.find(params[:id])
 
-      raise Discourse::InvalidAccess if current_user.user_points.sum(:reward_points) < reward.points
-      raise Discourse::InvalidAccess if reward.quantity <= 0
+      error_message = I18n.t("discourse_rewards.redeem.error")
+
+      if current_user.user_points.sum(:reward_points) < reward.points
+        opts[:type] = "insufficient_balance"
+        return render_json_error(error_message, opts)
+      end
+
+      if reward.quantity <= 0
+        opts[:type] = "quantity_limit"
+        return render_json_error(error_message, opts)
+      end
 
       reward = DiscourseRewards::Rewards.new(current_user, reward).grant_user_reward
 
@@ -142,14 +152,23 @@ module DiscourseRewards
     end
 
     def transactions
+      page = params[:page].to_i || 1
       transactions = ActiveRecord::Base.connection.execute("SELECT user_id, null user_reward_id, user_points_category_id,  id point_id, reward_points, created_at FROM discourse_rewards_user_points WHERE user_id=#{current_user.id} UNION SELECT user_id, id, null, null, points, created_at FROM discourse_rewards_user_rewards WHERE user_id=#{current_user.id} ORDER BY created_at DESC").to_a
+
+      count = transactions.length
+
+      transactions = transactions.drop(page * TRANSACTION_PAGE_SIZE).first(TRANSACTION_PAGE_SIZE)
 
       transactions = transactions.map { |transaction| DiscourseRewards::Transaction.new(transaction.with_indifferent_access) }
 
-      render_json_dump({ count: transactions.length, transactions: serialize_data(transactions, TransactionSerializer) })
+      render_json_dump({ count: count, transactions: serialize_data(transactions, TransactionSerializer) })
     end
 
     def display
+    end
+
+    def points_update
+      render_json_dump({available_points: current_user.available_points})
     end
 
     def gift
@@ -158,63 +177,88 @@ module DiscourseRewards
 
       id = params[:id]
       points = params[:points].to_i
+      error_message = I18n.t("discourse_rewards.gift.error")
+      opts = {}
 
       post = Post.find(id)
       user_received = post.user
 
-      raise Discourse::InvalidAccess if post.topic.archetype == Archetype.private_message
+      if post.topic.archetype == Archetype.private_message
+        opts[:type] = "private_message"
+        return render_json_error(error_message, opts)
+      end
 
-      description_received = {
-        type: 'gift_received',
-        username: current_user.name,
-        post_id: id,
-        post_number: post.post_number,
-        topic_id: post.topic.id,
-        topic_slug: post.topic.slug,
-        topic_title: post.topic.title
-      }
-      description_given = {
-        type: 'gift_given',
-        username: user_received.name,
-        post_id: id,
-        post_number: post.post_number,
-        topic_id: post.topic.id,
-        topic_slug: post.topic.slug,
-        topic_title: post.topic.title
-      }
-      DiscourseRewards::UserPoint.create(user_id: user_received.id, user_points_category_id: 6, reward_points: points, description: description_received.to_json) if points > 0
-      DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 7, reward_points: -(points), description: description_given.to_json)
+      if current_user.available_points < points
+        opts[:type] = "insufficient_balance"
+        return render_json_error(error_message, opts)
+      end
 
-      user_message_received = {
-        available_points: user_received.available_points
-      }
+      begin
+        description_received = {
+          type: 'gift_received',
+          username: current_user.name,
+          post_id: id,
+          post_number: post.post_number,
+          topic_id: post.topic.id,
+          topic_slug: post.topic.slug,
+          topic_title: post.topic.title
+        }
+        description_given = {
+          type: 'gift_given',
+          username: user_received.name,
+          post_id: id,
+          post_number: post.post_number,
+          topic_id: post.topic.id,
+          topic_slug: post.topic.slug,
+          topic_title: post.topic.title
+        }
+        DiscourseRewards::UserPoint.create(user_id: user_received.id, user_points_category_id: 6, reward_points: points, description: description_received.to_json) if points > 0
+        DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 7, reward_points: -(points), description: description_given.to_json)
 
-      MessageBus.publish("/u/#{user_received.id}/rewards", user_message_received)
+        # user_message_received = {
+        #   available_points: user_received.available_points
+        # }
 
-      user_message_given = {
-        available_points: current_user.available_points
-      }
+        # MessageBus.publish("/u/#{user_received.id}/rewards", user_message_received)
 
-      MessageBus.publish("/u/#{current_user.id}/rewards", user_message_given)
+        # user_message_given = {
+        #   available_points: current_user.available_points
+        # }
 
-      render_json_dump({ post: serialize_data(post,PostSerializer), points: points, user_received: serialize_data(user_received, BasicUserSerializer), user_given: serialize_data(current_user, BasicUserSerializer)})
+        # MessageBus.publish("/u/#{current_user.id}/rewards", user_message_given)
+
+        render_json_dump({ post: serialize_data(post,PostSerializer), points: points, user_received: serialize_data(user_received, BasicUserSerializer), user_given: serialize_data(current_user, BasicUserSerializer)})
+      rescue Exception => e
+        render_json_error(e.message, opts)
+      end
     end
 
     def lottery
 
-      points_spent = SiteSetting.discourse_rewards_lottery_points_spent_per_time.to_i
-      array_key = SiteSetting.discourse_rewards_lottery_prizes.split("|").map(&:to_i)
-      array_value = SiteSetting.discourse_rewards_lottery_probability.split("|").map(&:to_f)
-      hash = Hash[array_key.zip(array_value)]
-      prizes = []
-
-      hash.each do |k, v|
-        (v*100).to_i.times { prizes << k }
-      end
-      
       limiter = RateLimiter.new(current_user, "lottery_limit_per_day", SiteSetting.discourse_rewards_lottery_limit_per_day.to_i, 1.day)
+      points_spent = SiteSetting.discourse_rewards_lottery_points_spent_per_time.to_i
+      opts = {}
+      error_message = I18n.t("discourse_rewards.gacha.lottery.error")
 
-      if limiter.remaining > 0
+     
+      if current_user.available_points < points_spent
+        opts[:type] = "insufficient_balance"
+        return render_json_error(error_message, opts)
+      end
+      if limiter.remaining <= 0
+        opts[:type] = "rate_limit"
+        return render_json_error(error_message, opts)
+      end
+
+      begin
+        array_key = SiteSetting.discourse_rewards_lottery_prizes.split("|").map(&:to_i)
+        array_value = SiteSetting.discourse_rewards_lottery_probability.split("|").map(&:to_f)
+        hash = Hash[array_key.zip(array_value)]
+        prizes = []
+        hash.each do |k, v|
+          (v*1000).to_i.times { prizes << k }
+        end
+
         description_out = {
           type: 'lottery_out',
           date: Date.today
@@ -229,21 +273,19 @@ module DiscourseRewards
         DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 8, reward_points: -(points_spent), description: description_out.to_json) if limiter.remaining > 0
         DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 9, reward_points: points_earned, description: description_in.to_json) if limiter.remaining > 0
 
-        user_message = {
-          available_points: current_user.available_points
-        }
+        # user_message = {
+        #   available_points: current_user.available_points
+        # }
 
-        MessageBus.publish("/u/#{current_user.id}/rewards", user_message)
-
+        # MessageBus.publish("/u/#{current_user.id}/rewards", user_message)
         
         limiter.performed!
 
         render_json_dump({lottery_prize: points_earned, remaining: limiter.remaining, user: serialize_data(current_user, BasicUserSerializer)})
-      else
-        render_json_error(I18n.t("rate_limiter.slow_down"))
+
+      rescue Exception => e
+        render_json_error(e.message)
       end
-    rescue RateLimiter::LimitExceeded
-      render_json_error(I18n.t("rate_limiter.slow_down"))
     end
   end
 end
