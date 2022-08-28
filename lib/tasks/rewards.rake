@@ -56,6 +56,8 @@ task "rewards:points" => [:environment] do |_, args|
     puts "create point record for post " + post.id.to_s
   end
 
+  puts "Creating post points records finished!"
+
   likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).order("created_at")
   # likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).order("created_at")
 
@@ -83,6 +85,7 @@ task "rewards:points" => [:environment] do |_, args|
     DiscourseRewards::UserPoint.create(user_id: like.post.user_id, reward_points: points, created_at: like.created_at, updated_at: like.created_at, user_points_category_id: 4, description: description.to_json) if points > 0
     puts "create point record for like " + like.id.to_s
   end
+  puts "Creating like points records finished!"
 end
 
 desc "Add Category to all points granted till date"
