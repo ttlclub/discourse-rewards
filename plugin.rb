@@ -64,6 +64,7 @@ after_initialize do
     "../app/models/reward_list.rb",
     "../app/models/user_reward_list.rb",
     "../app/models/transaction.rb",
+    "../app/models/total_point.rb",
     "../app/models/user_points_category.rb",
     "../jobs/scheduled/grant_active_member_bronze_badges",
     "../jobs/scheduled/grant_active_member_silver_badges",
@@ -101,11 +102,13 @@ after_initialize do
   end
 
   add_to_class(:user, :total_earned_points) do
-    self.user_points.sum(:reward_points)
+    # self.user_points.sum(:reward_points)
+    self.get_total_earned_points
   end
 
   add_to_class(:user, :available_points) do
-    self.total_earned_points - self.user_rewards.sum(:points)
+    # self.total_earned_points - self.user_rewards.sum(:points)
+    self.get_available_points
   end
 
   add_to_class(:user, :rewards) do
