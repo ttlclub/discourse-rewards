@@ -16,7 +16,11 @@ task "rewards:points" => [:environment] do |_, args|
   posts = Post.where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).where("user_id > 0")
   # posts = Post.where("user_id > 0")
 
-  puts posts.count.to_s + "posts need to create point record."
+  destroy_post = ask( posts.count.to_s + "posts need to create point record. are you sure ? y/n  ")
+
+  if destroy_post.downcase != "y"
+    raise "You are not sure about the task, aborting the task"
+  end
 
   posts.each do |post|
     next if !post.topic
@@ -55,7 +59,11 @@ task "rewards:points" => [:environment] do |_, args|
   likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate)
   # likes = PostAction.where(post_action_type_id: PostActionType.types[:like])
 
-  puts likes.count.to_s + "likes need to create point record."
+  destroy_like = ask( likes.count.to_s + "likes need to create point record. are you sure ? y/n  ")
+
+  if destroy_like.downcase != "y"
+    raise "You are not sure about the task, aborting the task"
+  end
 
   likes.each do |like|
     next if !like.post.topic
