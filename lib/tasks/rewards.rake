@@ -13,8 +13,8 @@ task "rewards:points" => [:environment] do |_, args|
   earlist_record_time = DiscourseRewards::UserPoint.order("created_at").first.created_at
   end_time_of_calculate = earlist_record_time - 1.second
 
-  posts = Post.where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).where("user_id > 0")
-  # posts = Post.where("user_id > 0")
+  posts = Post.where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).where("user_id > 0").order("created_at")
+  # posts = Post.where("user_id > 0").order("created_at")
 
   destroy_post = ask( posts.count.to_s + "posts need to create point record. are you sure ? y/n  ")
 
@@ -56,8 +56,8 @@ task "rewards:points" => [:environment] do |_, args|
     puts "create point record for post " + post.id.to_s
   end
 
-  likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate)
-  # likes = PostAction.where(post_action_type_id: PostActionType.types[:like])
+  likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).order("created_at")
+  # likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).order("created_at")
 
   destroy_like = ask( likes.count.to_s + "likes need to create point record. are you sure ? y/n  ")
 
