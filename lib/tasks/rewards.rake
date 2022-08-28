@@ -25,6 +25,7 @@ task "rewards:points" => [:environment] do |_, args|
   posts.each do |post|
     next if !post.topic
     next if post.topic.archetype == Archetype.private_message
+    next if !post.topic.category
 
     description = nil
     points = nil
@@ -38,7 +39,10 @@ task "rewards:points" => [:environment] do |_, args|
         topic_title: post.topic.title
       }
 
-      points = SiteSetting.discourse_rewards_points_for_topic_create.to_i
+      points = post.topic.category.custom_fields['rewards_points_for_topic_create'].to_i
+
+      points = SiteSetting.discourse_rewards_points_for_topic_create.to_i if points <= 0
+
     else
       description = {
         type: 'post',
