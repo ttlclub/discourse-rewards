@@ -8,12 +8,23 @@ task "rewards:points" => [:environment] do |_, args|
     raise "You are not sure about the task, aborting the task"
   end
 
-  DiscourseRewards::UserPoint.where(user_badge_id: nil, user_points_category_id: [2, 4]).destroy_all
+  # DiscourseRewards::UserPoint.where(user_badge_id: nil, user_points_category_id: [2, 4]).destroy_all
 
-  posts = Post.where(created_at: Time.zone.now.beginning_of_year..Time.zone.now.end_of_day).where("user_id > 0")
+  earlist_record_time = DiscourseRewards::UserPoint.order("created_at").first.created_at
+  end_time_of_calculate = earlist_record_time - 1.second
+
+  posts = Post.where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).where("user_id > 0").order("created_at")
+  # posts = Post.where("user_id > 0").order("created_at")
+
+  destroy_post = ask( posts.count.to_s + "posts need to create point record. are you sure ? y/n  ")
+
+  if destroy_post.downcase != "y"
+    raise "You are not sure about the task, aborting the task"
+  end
 
   posts.each do |post|
     next if !post.topic
+    next if post.topic.archetype == Archetype.private_message
 
     description = nil
     points = nil
@@ -41,12 +52,23 @@ task "rewards:points" => [:environment] do |_, args|
       points = SiteSetting.discourse_rewards_points_for_post_create.to_i
     end
 
-    DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, user_points_category_id: 2, description: description.to_json) if points > 0
+    DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, created_at: post.created_at, updated_at: post.created_at, user_points_category_id: 2, description: description.to_json) if points > 0
+    puts "create point record for post " + post.id.to_s
   end
 
-  likes = PostAction.where(post_action_type_id: PostActionType.types[:like], post_id: posts.pluck(:id))
+  likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).where(created_at: Time.zone.now.beginning_of_year..end_time_of_calculate).order("created_at")
+  # likes = PostAction.where(post_action_type_id: PostActionType.types[:like]).order("created_at")
+
+  destroy_like = ask( likes.count.to_s + "likes need to create point record. are you sure ? y/n  ")
+
+  if destroy_like.downcase != "y"
+    raise "You are not sure about the task, aborting the task"
+  end
 
   likes.each do |like|
+    next if !like.post.topic
+    next if like.post.topic.archetype == Archetype.private_message
+
     description = {
       type: 'like',
       post_id: like.post.id,
@@ -58,7 +80,8 @@ task "rewards:points" => [:environment] do |_, args|
 
     points = SiteSetting.discourse_rewards_points_for_like_received.to_i
 
-    DiscourseRewards::UserPoint.create(user_id: like.post.user_id, reward_points: points, user_points_category_id: 4, description: description.to_json) if points > 0
+    DiscourseRewards::UserPoint.create(user_id: like.post.user_id, reward_points: points, created_at: like.created_at, updated_at: like.created_at, user_points_category_id: 4, description: description.to_json) if points > 0
+    puts "create point record for like " + like.id.to_s
   end
 end
 

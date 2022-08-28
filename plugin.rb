@@ -53,6 +53,7 @@ after_initialize do
     "../app/serializers/reward_list_serializer.rb",
     "../app/serializers/user_reward_list_serializer.rb",
     "../app/serializers/transaction_serializer.rb",
+    "../app/serializers/user_total_point_serializer.rb",
     "../lib/discourse-rewards/non_anonymous_user_constraint.rb",
     "../lib/discourse-rewards/user_extension.rb",
     "../lib/discourse-rewards/rewards.rb",
@@ -64,6 +65,7 @@ after_initialize do
     "../app/models/reward_list.rb",
     "../app/models/user_reward_list.rb",
     "../app/models/transaction.rb",
+    "../app/models/total_point.rb",
     "../app/models/user_points_category.rb",
     "../jobs/scheduled/grant_active_member_bronze_badges",
     "../jobs/scheduled/grant_active_member_silver_badges",
@@ -101,23 +103,33 @@ after_initialize do
   end
 
   add_to_class(:user, :total_earned_points) do
-    self.user_points.sum(:reward_points)
+    # self.user_points.sum(:reward_points)
+    self.get_total_earned_points
   end
 
   add_to_class(:user, :available_points) do
-    self.total_earned_points - self.user_rewards.sum(:points)
+    # self.total_earned_points - self.user_rewards.sum(:points)
+    self.get_available_points
   end
 
   add_to_class(:user, :rewards) do
     DiscourseRewards::Reward.where(created_by_id: self.id)
   end
 
-  add_to_serializer(:basic_user, :total_earned_points) do
-    user&.total_earned_points
+  # add_to_serializer(:basic_user, :total_earned_points) do
+  #   user&.total_earned_points
+  # end
+
+  # add_to_serializer(:basic_user, :available_points) do
+  #   user&.available_points
+  # end
+
+  add_to_serializer(:user_card, :total_earned_points) do
+    object.total_earned_points
   end
 
-  add_to_serializer(:basic_user, :available_points) do
-    user&.available_points
+  add_to_serializer(:user_card, :available_points) do
+    object.available_points
   end
 
   add_to_serializer(:current_user, :total_earned_points) do
