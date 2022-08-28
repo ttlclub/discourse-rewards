@@ -148,7 +148,7 @@ module DiscourseRewards
 
       users = users.map { |user| User.new(user.with_indifferent_access.except!(:total_earned_points, :total_spent_points, :total_available_points)) } 
 
-      render_json_dump({ count: count, current_user_rank: current_user_index + 1, users: serialize_data(users, BasicUserSerializer) })
+      render_json_dump({ count: count, current_user_rank: current_user_index + 1, users: serialize_data(users, UserTotalPointSerializer) })
     end
 
     def transactions
