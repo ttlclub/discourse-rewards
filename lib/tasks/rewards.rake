@@ -22,7 +22,7 @@ task "rewards:points" => [:environment] do |_, args|
     raise "You are not sure about the task, aborting the task"
   end
 
-  posts.each do |post|
+  posts.find_each do |post|
     next if !post.topic
     next if post.topic.archetype == Archetype.private_message
     next if !post.topic.category
@@ -71,7 +71,7 @@ task "rewards:points" => [:environment] do |_, args|
     raise "You are not sure about the task, aborting the task"
   end
 
-  likes.each do |like|
+  likes.find_each do |like|
     next if !like.post.topic
     next if like.post.topic.archetype == Archetype.private_message
 
