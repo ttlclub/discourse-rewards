@@ -167,6 +167,9 @@ en:
           error: "Error！"
           error_private: "不支持私信赠礼"
           error_balane: "赠礼不支持赊账"
+      user_preferences:
+        label: "mora system"
+        show_points_leaderboard: "show mora leaderboard"
     notifications:
       titles:
         rewards: "new user prize"
