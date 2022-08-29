@@ -2,7 +2,9 @@
   <ul class="nav nav-pills">
     {{nav-item route='pointsCenter.index' label='discourse_rewards.my_points_center.nav'}}
     {{nav-item route='pointsCenter.available-rewards' label='discourse_rewards.available_rewards.nav'}}
-    {{nav-item route='pointsCenter.leaderboard' label='discourse_rewards.leaderboard.nav'}}
+    {{#if isShowLeaderboard}}
+      {{nav-item route='pointsCenter.leaderboard' label='discourse_rewards.leaderboard.nav'}}
+    {{/if}}
     {{nav-item route='pointsCenter.gacha' label='discourse_rewards.gacha.nav'}}
   </ul>
 </nav>

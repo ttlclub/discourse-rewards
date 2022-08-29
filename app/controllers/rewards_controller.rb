@@ -115,6 +115,12 @@ module DiscourseRewards
     def leaderboard
       page = params[:page].to_i || 1
 
+      staff_not_show_query = ""
+      show_staff = SiteSetting.discourse_rewards_leaderboard_show_staff
+      if !show_staff
+        staff_not_show_query = "AND users.admin=false AND users.moderator=false"
+      end
+
       query = <<~SQL
         SELECT earned.*, total_spent_points, (total_earned_points - total_spent_points) AS total_available_points FROM (
           SELECT users.*, COALESCE(SUM(discourse_rewards_user_points.reward_points), 0) total_earned_points FROM "users"
@@ -123,7 +129,7 @@ module DiscourseRewards
             silenced_till IS NULL AND
             suspended_till IS NULL AND
             active=true AND
-            users.id > 0)
+            users.id > 0 #{staff_not_show_query})
           GROUP BY "users"."id"
         ) earned INNER JOIN (
           SELECT users.*, COALESCE(SUM(discourse_rewards_user_rewards.points), 0) total_spent_points FROM "users"
@@ -142,7 +148,7 @@ module DiscourseRewards
 
       count = users.length
 
-      current_user_index = users.pluck("id").index(current_user.id)
+      current_user_index = users.pluck("id").index(current_user.id) || count
 
       users = users.drop(page * PAGE_SIZE).first(PAGE_SIZE)
 

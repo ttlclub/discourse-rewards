@@ -167,6 +167,9 @@ zh_CN:
           error: "赠送失败！"
           error_private: "不支持私信赠礼"
           error_balane: "赠礼不支持赊账"
+      user_preferences:
+        label: "摩拉系统"
+        show_points_leaderboard: "是否显示北国银行存款榜"
     notifications:
       titles:
         rewards: "新的用户购买"
