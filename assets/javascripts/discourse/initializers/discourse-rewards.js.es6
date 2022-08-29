@@ -82,6 +82,19 @@ function initializeDiscourseRewards(api) {
 
     });
   }
+
+  api.modifyClass("controller:preferences/account", {
+    pluginId: "discourse-rewards-preference",
+
+    actions: {
+      save() {
+        if (!this.saveAttrNames.includes("custom_fields")) {
+          this.saveAttrNames.push("custom_fields");
+        }
+        this._super(...arguments);
+      },
+    },
+  });
 }
 
 export default {

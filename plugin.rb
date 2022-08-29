@@ -150,6 +150,11 @@ after_initialize do
 
   Site.preloaded_category_custom_fields << "rewards_points_for_topic_create"
 
+  # set visibility of leaderboard by user
+  User.register_custom_field_type 'discourse_rewards_show_points_leaderboard', :boolean
+  register_editable_user_custom_field :discourse_rewards_show_points_leaderboard
+  DiscoursePluginRegistry.serialized_current_user_fields << 'discourse_rewards_show_points_leaderboard'
+
   on(:notification_created) do |notification|
     data = JSON.parse(notification.data).with_indifferent_access
 
@@ -208,12 +213,12 @@ after_initialize do
 
         DiscourseRewards::UserPoint.create(user_id: post.user_id, user_points_category_id: 2, reward_points: points, description: description.to_json) if points > 0
 
-        # user_message = {
-        #   available_points: post.user.available_points,
-        #   points: post.user.total_earned_points
-        # }
+        user_message = {
+          available_points: post.user.available_points,
+          # points: post.user.total_earned_points
+        }
 
-        # MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
+        MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
       end
     end
   end
@@ -243,11 +248,11 @@ after_initialize do
 
         DiscourseRewards::UserPoint.create(user_id: topic.user_id, user_points_category_id: 2, reward_points: points, description: description.to_json) if points > 0
 
-        # user_message = {
-        #   available_points: topic.user.available_points
-        # }
+        user_message = {
+          available_points: topic.user.available_points
+        }
 
-        # MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
+        MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
       end
     end
   end
