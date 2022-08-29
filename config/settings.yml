@@ -59,3 +59,12 @@ discourse_rewards:
     type: list
     client: true
     default: "头像框|实物周边|其他"
+  discourse_rewards_show_points_leaderboard:
+    type: boolean
+    client: true
+    default: false
+  discourse_rewards_leaderboard_show_staff:
+    type: boolean
+    client: true
+    default: false
+
