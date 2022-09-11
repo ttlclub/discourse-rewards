@@ -86,6 +86,7 @@ zh_CN:
         gift_received: "收到 %{username} 赠礼在: %{title} 主题帖."
         gift_given: "给 %{username} 送出赠礼在: %{title} 主题帖."
         lottery_out: "%{date}，岩上茶室消费."
+        lottery_out_rare_hit: "%{date}，岩上茶室消费.抽中稀有物品%{hit_rare_prizes}"
         lottery_in: "%{date}，岩上茶室收入."
       user:
         title: "用户: "
@@ -120,10 +121,23 @@ zh_CN:
         nav: "岩上茶室"
         lottery:
           title: "赌石"
+          tag: "常驻"
           instructions: "20摩拉一次。抽奖概率：10摩拉60%，40摩拉35%，100摩拉5%。"
           button: "试试手气"
           confirm: "客官我看您今天气色不错。来一次试试?"
           result: "抽奖成功！这是您的%{lottery_prize}摩拉，您拿好!<br/>今日剩余抽奖次数：%{remaining}次"
+          error: "小赌怡情，大赌伤身，请过段时间再来"
+          error_balane: "岩上茶室不支持赊账"
+        lottery_chest:
+          title: "愚人众的奇怪宝箱"
+          tag: "限定"
+          instructions: "中秋佳节愚人众给了很多宝箱，说能开出自家执行官的呆毛，大家要不要试试？"
+          button: "50摩拉/次"
+          confirm: "客官我看您今天气色不错。来一次试试?"
+          confirm_all: "您已抽到卡池中所以珍稀物品，请移步其他卡池。"
+          confirm_some: "您已抽到卡池中的%{myRarePrizesNames}，继续抽取只可抽到%{notMyRarePrizesNames}，是否继续？"
+          result: "很遗憾，您没有抽中稀有物品。这是您的%{lottery_prize}摩拉，您拿好!<br/>今日剩余抽奖次数：%{remaining}次"
+          result_rare: "恭喜您抽中稀有物品%{lottery_prize}!<br/>今日剩余抽奖次数：%{remaining}次"
           error: "小赌怡情，大赌伤身，请过段时间再来"
           error_balane: "岩上茶室不支持赊账"
       edit_reward:

@@ -86,6 +86,7 @@ en:
         gift_received: "gift received from %{username} on: %{title} topic."
         gift_given: "gift given to %{username} on: %{title} topic."
         lottery_out: "%{date}，spent on gacha."
+        lottery_out_rare_hit: "%{date}，spent on gacha.get%{hit_rare_prizes}"
         lottery_in: "%{date}，earned on gacha."
       user:
         title: "User: "
@@ -120,10 +121,23 @@ en:
         nav: "gacha"
         lottery:
           title: "Du Shi"
+          tag: "common"
           instructions: "20mora per time. Probability：10 mora 60%，40 mora35%，100 mora5%。"
           button: "Just Try It!"
           confirm: "Try?"
           result: "Succuss！There are %{lottery_prize} mora.Thank you!<br/>Times Left Today：%{remaining}"
+          error: "Error！"
+          error_balane: "over balance"
+        lottery_chest:
+          title: "chest"
+          tag: "special"
+          instructions: "25ora per time. try？"
+          button: "Just Try It!"
+          confirm: "Try?"
+          confirm_all: "You have got all items."
+          confirm_some: "You have got %{myRarePrizesNames}，and can only get %{notMyRarePrizesNames}，continue？"
+          result: "Such a pitty. Here is %{lottery_prize} mora!<br/>Times Left Today：%{remaining}"
+          result_rare: "Congratulations! You get %{lottery_prize}!<br/>Times Left Today：%{remaining}"
           error: "Error！"
           error_balane: "over balance"
       edit_reward:
