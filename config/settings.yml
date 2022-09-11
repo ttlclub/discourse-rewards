@@ -67,4 +67,22 @@ discourse_rewards:
     type: boolean
     client: true
     default: false
+  discourse_rewards_lottery_chest_limit_per_day:
+    client: true
+    default: 10
+  discourse_rewards_lottery_chest_points_spent_per_time:
+    client: true
+    default: 50
+  discourse_rewards_lottery_chest_probability:
+    type: list
+    client: true
+    default: "0.2|0.3|0.5"
+  discourse_rewards_lottery_chest_prizes:
+    type: list
+    client: true
+    default: "10|40|-1"
+  discourse_rewards_lottery_chest_rare_prizes:
+    type: list
+    client: true
+    default: "test|test2"
 
