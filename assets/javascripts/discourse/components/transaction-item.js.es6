@@ -54,6 +54,12 @@ export default Component.extend({
           title: description.topic_title,
         });
       } else if (description.type === "lottery_out"){
+        if(description.hit_rare_prizes) {
+          return I18n.t("discourse_rewards.my_points_center.lottery_out_rare_hit", {
+            date: description.date,
+            hit_rare_prizes: description.hit_rare_prizes
+          });
+        }
         return I18n.t("discourse_rewards.my_points_center.lottery_out", {
           date: description.date,
         });

@@ -84,7 +84,9 @@ after_initialize do
     def create_visit_record!(date, opts = {})
       super
       limiter = RateLimiter.new(self, "lottery_limit_per_day", SiteSetting.discourse_rewards_lottery_limit_per_day.to_i, 1.day)
+      limiter_chest = RateLimiter.new(self, "lottery_chest_limit_per_day", SiteSetting.discourse_rewards_lottery_chest_limit_per_day.to_i, 1.day)
       limiter.clear!
+      limiter_chest.clear!
       points = SiteSetting.discourse_rewards_points_for_daily_login.to_i
       description = {
         type: 'daily_login',

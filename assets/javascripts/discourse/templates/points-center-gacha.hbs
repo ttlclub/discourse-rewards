@@ -1,10 +1,34 @@
 <div class="gacha">
-    <div class="lottery">
+    <div class="lottery special">
         <div class="lottery-img">
             <img src="/assets/images/lottery.png">
         </div>
         <div class="lottery-details">
-            <h3>{{i18n "discourse_rewards.gacha.lottery.title"}}</h3>
+            <div class="title">
+                <span class="tag special">限定</span>
+                <h3>{{i18n "discourse_rewards.gacha.lottery_chest.title"}}</h3>
+            </div>
+            <div class="lottery-instructions">
+                <p class="help">{{i18n "discourse_rewards.gacha.lottery_chest.instructions"}}</p>
+            </div>
+            {{d-button
+            disabled=isButtonDisabled
+            action=(action "lotteryChest")
+            class="btn-primary button"
+            icon=""
+            label="discourse_rewards.gacha.lottery_chest.button"
+            }}
+        </div>
+    </div>
+    <div class="lottery common">
+        <div class="lottery-img">
+            <img src="/assets/images/lottery.png">
+        </div>
+        <div class="lottery-details">
+            <div class="title">
+                <span class="tag common">常驻</span>
+                <h3>{{i18n "discourse_rewards.gacha.lottery.title"}}</h3>
+            </div>
             <div class="lottery-instructions">
                 <p class="help">{{i18n "discourse_rewards.gacha.lottery.instructions"}}</p>
             </div>
