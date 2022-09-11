@@ -134,7 +134,7 @@ zh_CN:
           instructions: "中秋佳节愚人众给了很多宝箱，说能开出自家执行官的呆毛，大家要不要试试？"
           button: "50摩拉/次"
           confirm: "客官我看您今天气色不错。来一次试试?"
-          confirm_all: "您已抽到卡池中所以珍稀物品，请移步其他卡池。"
+          confirm_all: "您已抽到卡池中所有珍稀物品，请移步其他卡池。"
           confirm_some: "您已抽到卡池中的%{myRarePrizesNames}，继续抽取只可抽到%{notMyRarePrizesNames}，是否继续？"
           result: "很遗憾，您没有抽中稀有物品。这是您的%{lottery_prize}摩拉，您拿好!<br/>今日剩余抽奖次数：%{remaining}次"
           result_rare: "恭喜您抽中稀有物品%{lottery_prize}!<br/>今日剩余抽奖次数：%{remaining}次"
