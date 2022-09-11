@@ -101,6 +101,23 @@ class DiscourseRewards::Rewards
     @user_reward
   end
 
+  def add_to_group(group_name)
+    result = nil
+    
+    group = Group.find_by(name: group_name) if group_name
+    result = group.add(@user) if group
+    # result = add_user_to_group(group, @user, true)
+    GroupActionLogger.new(Discourse.system_user, group).log_add_user_to_group(@user)
+    group.notify_added_to_group(@user)
+
+    if result
+      group_full_name = group.full_name.present? ? group.full_name.to_s : group_name.to_s
+      return group_full_name
+    else
+      return "failed_to_add_to_group"
+    end
+  end
+
   private
 
   def link_image_to_post(upload_id)

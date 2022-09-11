@@ -293,5 +293,86 @@ module DiscourseRewards
         render_json_error(e.message)
       end
     end
+
+
+    def lottery_chest
+
+      limiter = RateLimiter.new(current_user, "lottery_chest_limit_per_day", SiteSetting.discourse_rewards_lottery_chest_limit_per_day.to_i, 1.day)
+      points_spent = SiteSetting.discourse_rewards_lottery_chest_points_spent_per_time.to_i
+      opts = {}
+      error_message = I18n.t("discourse_rewards.gacha.lottery.error")
+     
+      if current_user.available_points < points_spent
+        opts[:type] = "insufficient_balance"
+        return render_json_error(error_message, opts)
+
+      end
+      if limiter.remaining <= 0
+        opts[:type] = "rate_limit"
+        return render_json_error(error_message, opts)
+      end
+
+      begin
+        array_key = SiteSetting.discourse_rewards_lottery_chest_prizes.split("|").map(&:to_i)
+        array_value = SiteSetting.discourse_rewards_lottery_chest_probability.split("|").map(&:to_f)
+        hash = Hash[array_key.zip(array_value)]
+        prizes = []
+        hash.each do |k, v|
+          (v*100).to_i.times { prizes << k }
+        end
+
+        points_earned = prizes.sample.to_i
+
+        if points_earned > 0
+
+          description_out = {
+            type: 'lottery_out',
+            date: Date.today
+          }
+          description_in = {
+            type: 'lottery_in',
+            date: Date.today
+          }
+
+          DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 8, reward_points: -(points_spent), description: description_out.to_json) if limiter.remaining > 0
+          DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 9, reward_points: points_earned, description: description_in.to_json) if limiter.remaining > 0
+
+          # user_message = {
+          #   available_points: current_user.available_points
+          # }
+
+          # MessageBus.publish("/u/#{current_user.id}/rewards", user_message)
+          
+          limiter.performed!
+
+          render_json_dump({rare_hit: false, lottery_prize: points_earned, remaining: limiter.remaining, user: serialize_data(current_user, BasicUserSerializer)})
+        else
+          rare_prizes = params.require(:rare_prizes)
+          hit_rare_prizes = rare_prizes.sample
+
+          result_message = DiscourseRewards::Rewards.new(current_user).add_to_group(hit_rare_prizes)
+          if result_message == "failed_to_add_to_group"
+            opts[:type] = "failed_to_add_to_group"
+            return render_json_error(error_message, opts)
+          end
+
+          description_out = {
+            type: 'lottery_out',
+            date: Date.today,
+            hit_rare_prizes: result_message.to_s
+          }
+
+          DiscourseRewards::UserPoint.create(user_id: current_user.id, user_points_category_id: 8, reward_points: -(points_spent), description: description_out.to_json) if limiter.remaining > 0
+
+          limiter.performed!
+
+          render_json_dump({rare_hit: true, lottery_prize: result_message.to_s , remaining: limiter.remaining, user: serialize_data(current_user, BasicUserSerializer)})
+
+        end
+
+      rescue Exception => e
+        render_json_error(e.message)
+      end
+    end
   end
 end
