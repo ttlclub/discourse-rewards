@@ -17,16 +17,28 @@ export default Controller.extend({
             this.loading
         );
     }),
+    myGroups: computed("currentUser.groups", function() {
+        return this.currentUser.groups.map(e => e.name);
+    }),
     rarePrizes: computed("siteSettings.discourse_rewards_lottery_chest_rare_prizes", function(){
         return this.get("siteSettings.discourse_rewards_lottery_chest_rare_prizes").split("|");
     }),
-    myRarePrizes: computed("rarePrizes", function(){
-        const myGroups = this.currentUser.groups.map(e => e.name);
-        return this.rarePrizes.filter(e => myGroups.includes(e));
+    rarePrizesNames: computed("rarePrizes", function() {
+        return this.rarePrizes.map(e => this.allGroups.findBy('name', e)?.get('full_name') ?? e );
     }),
-    notMyRarePrizes: computed("rarePrizes", function() {
-        const myGroups = this.currentUser.groups.map(e => e.name);
-        return this.rarePrizes.filter(e => !myGroups.includes(e));
+    myRarePrizes: computed("rarePrizes", "myGroups", function(){
+        // const myGroups = this.currentUser.groups.map(e => e.name);
+        return this.rarePrizes.filter(e => this.myGroups.includes(e));
+    }),
+    notMyRarePrizes: computed("rarePrizes", "myGroups", function() {
+        // const myGroups = this.currentUser.groups.map(e => e.name);
+        return this.rarePrizes.filter(e => !this.myGroups.includes(e));
+    }),
+    myRarePrizesNames: computed("myRarePrizes", function() {
+        return this.myRarePrizes.map(e => this.allGroups.findBy('name', e).get('full_name')).join(',') || '';
+    }),
+    notMyRarePrizesNames: computed("notMyRarePrizes", function() {
+        return this.notMyRarePrizes.map(e => this.allGroups.findBy('name', e)?.get('full_name') ?? e ).join(',') || '';
     }),
     warningString: computed("myRarePrizes", function(){
         if(this.myRarePrizes.length === 0){
@@ -35,8 +47,8 @@ export default Controller.extend({
             return I18n.t("discourse_rewards.gacha.lottery_chest.confirm_all");
         } else {
             return I18n.t("discourse_rewards.gacha.lottery_chest.confirm_some", {
-                myRarePrizesNames: this.myRarePrizes.map(e => this.allGroups.findBy('name', e).get('full_name')).join(',') || '',
-                notMyRarePrizesNames: this.notMyRarePrizes.map(e => this.allGroups.findBy('name', e)?.get('full_name') ?? e ).join(',') || ''
+                my_rare_prizes_names: this.myRarePrizesNames,
+                not_my_rare_prizes_names: this.notMyRarePrizesNames
             });
         }
     }),
@@ -153,9 +165,13 @@ export default Controller.extend({
                         const remaining = lottery.remaining;
                         this.pointsUpdate();
                         if(rare_hit) {
-                            bootbox.alert(I18n.t("discourse_rewards.gacha.lottery_chest.result_rare", {lottery_prize: lottery_prize, remaining:remaining})).addClass("lottery-chest rare").find(".modal-body").prepend("<div class='image'></div>");;
+                            this.rarePrizesNames.forEach((e,index) => {
+                                if(lottery_prize === e) {
+                                    bootbox.alert(I18n.t("discourse_rewards.gacha.lottery_chest.result_rare", {lottery_prize: lottery_prize, remaining:remaining})).addClass("lottery-chest rare " + "rare-prize" + (index+1).toString()).find(".modal-body").prepend("<div class='image'></div>");
+                                }
+                            });
                         } else {
-                            bootbox.alert(I18n.t("discourse_rewards.gacha.lottery_chest.result", {lottery_prize: lottery_prize, remaining:remaining})).addClass("lottery-chest money").find(".modal-body").prepend("<div class='image'></div>");;
+                            bootbox.alert(I18n.t("discourse_rewards.gacha.lottery_chest.result", {lottery_prize: lottery_prize, remaining:remaining})).addClass("lottery-chest money").find(".modal-body").prepend("<div class='image'></div>");
                         }
                         //this.send("closeModal");
                     })
