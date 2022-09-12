@@ -76,13 +76,13 @@ discourse_rewards:
   discourse_rewards_lottery_chest_probability:
     type: list
     client: true
-    default: "0.2|0.3|0.5"
+    default: "0.05|0.1|0.15|0.2|0.5"
   discourse_rewards_lottery_chest_prizes:
     type: list
     client: true
-    default: "10|40|-1"
+    default: "-1|50|30|20|5"
   discourse_rewards_lottery_chest_rare_prizes:
     type: list
     client: true
-    default: "test|test2"
+    default: "tataGif|zhongliGif"
 
