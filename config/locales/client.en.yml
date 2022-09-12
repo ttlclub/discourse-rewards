@@ -135,7 +135,7 @@ en:
           button: "Just Try It!"
           confirm: "Try?"
           confirm_all: "You have got all items."
-          confirm_some: "You have got %{myRarePrizesNames}，and can only get %{notMyRarePrizesNames}，continue？"
+          confirm_some: "You have got %{my_rare_prizes_names}，and can only get %{not_my_rare_prizes_names}，continue？"
           result: "Such a pitty. Here is %{lottery_prize} mora!<br/>Times Left Today：%{remaining}"
           result_rare: "Congratulations! You get %{lottery_prize}!<br/>Times Left Today：%{remaining}"
           error: "Error！"
